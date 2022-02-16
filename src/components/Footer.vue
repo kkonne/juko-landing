@@ -8,7 +8,7 @@
                         <div class="footer-brand">
                             <img
                                 src="@/assets/images/company-logo.svg"
-                                alt="Termodinamika company logo"
+                                alt="Juko company logo"
                                 class="footer-logo"
                             />
                             <h5 class="footer-title">Juko</h5>

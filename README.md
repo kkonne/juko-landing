@@ -1,4 +1,7 @@
-# termodinamika website
+# Juko website
+
+### Juko website including landing page, auth, admin panel for CMS and B2B orders.
+### Made using Vue 3 and Tailwind.
 
 ## Project setup
 ```

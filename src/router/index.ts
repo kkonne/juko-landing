@@ -1,25 +1,127 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import Home from '../views/Home.vue';
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    {
+        path: '/',
+        name: 'Home',
+        component: Home,
+    },
+    {
+        path: '/proizvodi',
+        component: () => import('../views/Proizvodi.vue'),
+        children: [
+            {
+                path: '',
+                name: 'Proizvodi',
+                component: () => import('../views/proizvodi/Index.vue'),
+            },
+            {
+                path: ':id',
+                component: () => import('../views/proizvodi/Kategorije.vue'),
+                children: [
+                    {
+                        path: '',
+                        name: 'Kategorije',
+                        component: () =>
+                            import('../views/proizvodi/kategorije/Index.vue'),
+                    },
+                    {
+                        path: ':id',
+                        name: 'Kategorija',
+                        component: () =>
+                            import(
+                                '../views/proizvodi/kategorije/Kategorija.vue'
+                            ),
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        path: '/partneri',
+        name: 'Partneri',
+        component: () => import('../views/Partneri.vue'),
+    },
+    {
+        path: '/artikal',
+        component: () => import('../views/Artikal.vue'),
+        children: [
+            {
+                path: ':id',
+                name: 'Artikal',
+                component: () => import('../views/artikal/Index.vue'),
+            },
+        ],
+    },
+    {
+        path: '/o-nama',
+        name: 'O nama',
+        component: () => import('../views/Onama.vue'),
+    },
+    {
+        path: '/kontakt',
+        name: 'Kontakt',
+        component: () => import('../views/Kontakt.vue'),
+    },
+    {
+        path: '/admin',
+        component: () => import('../views/Admin.vue'),
+        children: [
+            {
+                path: '',
+                name: 'Admin',
+                component: () => import('../views/admin/Index.vue'),
+            },
+            {
+                path: 'artikal',
+                name: 'Admin Artikal',
+                component: () => import('../views/admin/Artikal.vue'),
+            },
+            {
+                path: 'kategorija',
+                name: 'Admin Kategorija',
+                component: () => import('../views/admin/Kategorija.vue'),
+            },
+            {
+                path: 'content',
+                name: 'Admin Content',
+                component: () => import('../views/admin/Content.vue'),
+            },
+        ],
+    },
+    {
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: () => import('../views/404.vue'),
+        meta: { hideNavigation: true },
+    },
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth',
+            };
+        }
 
-export default router
+        if (to == from) {
+            return {
+                top: 0,
+                behavior: 'smooth',
+            };
+        }
+
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { top: 0 };
+        }
+    },
+});
+
+export default router;

@@ -1,0 +1,68 @@
+* {
+    @apply transition-all duration-150;
+
+    @media (prefers-reduced-motion) {
+        @apply duration-75;
+      }
+}
+
+.container {
+    @apply w-11/12 mx-auto;
+}
+
+.container-fluid {
+    @apply w-screen;
+}
+
+.text-secondary {
+    color: $text-secondary;
+}
+
+h1 {
+    @apply text-4xl;
+}
+
+h2 {
+    @apply text-2xl;
+}
+
+h3 {
+    @apply text-xl;
+}
+
+h4 {
+    @apply text-lg;
+}
+
+select {
+    @apply dark:bg-gray-700 dark:text-gray-100;
+}
+
+input, textarea {
+    @apply dark:bg-gray-800 dark:text-gray-100 resize-none;
+}
+
+.breadcrumb {
+    @apply text-right text-sm;
+
+    span {
+        @apply cursor-pointer hover:underline;
+
+        &.active {
+            @apply text-red-600 dark:text-red-400;
+        }
+    }
+}
+
+.text-muted {
+    @apply mx-1 text-sm text-gray-500
+}
+
+.headline {
+    @apply my-6 font-bold;
+}
+
+.subtitle {
+    @apply my-2 border-l-2 pl-5
+        border-gray-400 dark:border-gray-600;
+}

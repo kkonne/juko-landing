@@ -1,4 +1,4 @@
-# hercegovina-events
+# termodinamika website
 
 ## Project setup
 ```

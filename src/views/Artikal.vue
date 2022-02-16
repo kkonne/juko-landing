@@ -1,15 +1,15 @@
 <template>
-  <div id="about">
-    This is an about page :p
+  <div id="artikal">
+      <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: "About"
+
 }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

@@ -267,7 +267,7 @@
 
 <script lang="ts">
 import { ref } from 'vue';
-import httpService from '@/components/http-service.vue';
+import httpService from '@/services/http-service';
 import Tooltip from '@/components/Tooltip.vue';
 import Alert from '@/components/Alert.vue';
 

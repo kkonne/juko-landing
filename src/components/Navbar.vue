@@ -47,6 +47,15 @@
                     </div>
 
                     <div class="header-end">
+                        <div
+                            class="nav-item"
+                            v-if="isUserLoggedIn"
+                        >
+                            <div @click="attemptLogout()" class="logout">
+                                Log out
+                            </div>
+                        </div>
+
                         <div class="nav-item">
                             <div @click="toggleLanguageSelect()">
                                 {{ currentLang }}
@@ -170,10 +179,10 @@
 </template>
 
 <script lang="ts">
+import { ref } from 'vue';
+import userService from '@/services/user-service';
 import routerService from '@/services/router-service';
 import languageService from '@/services/language-service';
-import axios from "@/services/axios";
-import { ref } from 'vue';
 
 export default {
     name: 'Navbar',
@@ -183,6 +192,7 @@ export default {
         let isMobileOpened = ref(false);
         let currentLang = ref(languageService.getCurrentLang());
         let isLanguageSelectToggled = ref(false);
+        let isUserLoggedIn = ref(userService.isUserLoggedIn());
 
         let toggleMobileMenu = () => {
             isMobileOpened.value = !isMobileOpened.value;
@@ -191,6 +201,11 @@ export default {
         let mobileLinkTo = (route) => {
             isMobileOpened.value = false;
             routerService.routerLinkTo(route);
+        };
+
+        let attemptLogout = () => {
+            userService.logout();
+            isUserLoggedIn.value = false;
         };
 
         let toggleColorTheme = () => {
@@ -221,24 +236,27 @@ export default {
 
         let selectLanguage = (langCode) => {
             languageService.setCurrentLang(langCode);
-            axios.defaults.headers.common['x-localization'] = langCode;
             currentLang.value = langCode;
             toggleLanguageSelect('off');
             location.reload(); // krema 💦
         };
 
         return {
-            routerService,
             isDarkMode,
             isMobileOpened,
             currentLang,
             isLanguageSelectToggled,
+            isUserLoggedIn,
 
             toggleMobileMenu,
             mobileLinkTo,
             toggleColorTheme,
             toggleLanguageSelect,
             selectLanguage,
+            attemptLogout,
+
+            userService,
+            routerService,
         };
     },
 };

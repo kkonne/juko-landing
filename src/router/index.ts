@@ -91,6 +91,18 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/Login.vue'),
+        meta: { hideNavigation: true },
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: () => import('../views/Register.vue'),
+        meta: { hideNavigation: true },
+    },
+    {
         path: '/:catchAll(.*)',
         name: '404',
         component: () => import('../views/404.vue'),

@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { ref } from 'vue';
-import httpService from '@/components/http-service.vue';
+import httpService from '@/services/http-service';
 import Alert from '@/components/Alert.vue';
 
 export default {

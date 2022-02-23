@@ -1014,15 +1014,14 @@
 </template>
 
 <script lang="ts">
-import { onUnmounted, ref, inject, watch } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import routerService from '@/services/router-service';
-import languageService from '@/services/language-service';
+import httpService from '@/services/http-service';
 
 export default {
     name: 'Home',
 
     setup() {
-        const axios: any = inject('axios');
         let isScrolled = ref(false);
         let homePageAssets: any = ref();
 
@@ -1039,7 +1038,7 @@ export default {
         });
 
         // let loadPageAssets = () => {
-        //     axios
+        //     httpService
         //     .get('lang-assets/page-content/naslovna')
         //     .then((response) => {
         //         homePageAssets.value = response.data;
@@ -1060,6 +1059,7 @@ export default {
             handleScrollEvent,
 
             routerService,
+            httpService,
         };
     },
 };

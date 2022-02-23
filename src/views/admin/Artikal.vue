@@ -71,7 +71,7 @@
                                 viewBox="0 0 960 560"
                                 enable-background="new 0 0 960 560"
                             >
-                                <g id="Rounded_Rectangle_33_copy_4_1_">
+                                <g>
                                     <path
                                         d="M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937
 		c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937
@@ -109,7 +109,13 @@
                                     </div>
                                 </div>
 
-                                <div v-if="!product.isEditProductToggled && !product.isDeleteProductToggled" class="product-actions">
+                                <div
+                                    v-if="
+                                        !product.isEditProductToggled &&
+                                        !product.isDeleteProductToggled
+                                    "
+                                    class="product-actions"
+                                >
                                     <button
                                         @click="toggleProductEdit(product)"
                                         class="product-edit-toggle"
@@ -164,10 +170,11 @@
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import routerService from '@/services/router-service';
 import AddProduct from '@/components/admin/AddProduct.vue';
 import EditProduct from '@/components/admin/EditProduct.vue';
+import httpService from "@/services/http-service";
 
 export default {
     name: 'Admin Artikal',
@@ -178,7 +185,6 @@ export default {
     },
 
     setup() {
-        const axios: any = inject('axios');
         let categoriesList = ref([]);
         let categorySelect = ref('');
         let isAddProductToggled = ref(false);
@@ -186,17 +192,20 @@ export default {
         let isEditProductToggled = ref(false);
         let isDeleteProductToggled = ref(false);
 
-        axios
-            .get('categories-last')
-            .then((response) => {
-                categoriesList.value = response.data;
+        let onInit = () => {
+            const API_URL = 'categories-last';
+            httpService
+                .get(API_URL)
+                .then((response) => {
+                    categoriesList.value = response.data;
 
-                console.log('data 🔥');
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                    console.log('data 🔥');
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
 
         let loadCategoryProducts = (slug) => {
             console.log('Loaded....');
@@ -205,8 +214,9 @@ export default {
             isEditProductToggled.value = false;
             isDeleteProductToggled.value = false;
 
-            axios
-                .get(`categories/${slug}/products`)
+            const API_URL = `categories/${slug}/products`;
+            httpService
+                .get(API_URL)
                 .then((response) => {
                     productsList.value = response.data;
 
@@ -237,17 +247,18 @@ export default {
         };
 
         let attemptProductDelete = (slug, index) => {
-            axios
-                .delete(`products/${slug}`)
+            const API_URL = `products/${slug}`;
+            httpService
+                .delete(API_URL)
                 .then((response) => {
-                    console.log(response.data);
-
                     productsList.value.splice(index, 1);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.error(error);
                 });
         };
+
+        onInit();
 
         return {
             categoriesList,
@@ -257,6 +268,7 @@ export default {
             isEditProductToggled,
             isDeleteProductToggled,
 
+            onInit,
             loadCategoryProducts,
             toggleAddProduct,
             toggleProductEdit,
@@ -265,6 +277,7 @@ export default {
             cancelAddProduct,
 
             routerService,
+            httpService,
         };
     },
 };
@@ -305,7 +318,7 @@ export default {
     .products-list {
         .product-item {
             @apply my-4 px-4 p-2 bg-red-500 bg-opacity-10
-                hover:shadow-md;
+                hover:shadow-lg;
 
             .product-main {
                 @apply flex flex-col justify-center items-start 

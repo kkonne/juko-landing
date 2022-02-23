@@ -6,6 +6,7 @@
                     <label for="productNameInputHr">Product name</label>
                     <input
                         v-model.trim="editProductNameInputHr"
+                        @change="onProductDataChange()"
                         id="productNameInputHr"
                         type="text"
                         placeholder="Hrvatski"
@@ -15,6 +16,7 @@
                 <div class="form-field">
                     <input
                         v-model.trim="editProductNameInputEn"
+                        @change="onProductDataChange()"
                         id="productNameInputEn"
                         type="text"
                         placeholder="English"
@@ -24,6 +26,7 @@
                 <div class="form-field">
                     <input
                         v-model.trim="editProductNameInputDe"
+                        @change="onProductDataChange()"
                         id="productNameInputDe"
                         type="text"
                         placeholder="Deutsch"
@@ -37,6 +40,7 @@
                     <textarea
                         rows="3"
                         v-model.trim="editProductDescriptionInputHr"
+                        @change="onProductDataChange()"
                         id="productDescriptionInputHr"
                         type="text"
                         @blur="handleOnFocusOut($event)"
@@ -48,6 +52,7 @@
                     <textarea
                         rows="3"
                         v-model.trim="editProductDescriptionInputEn"
+                        @change="onProductDataChange()"
                         id="productDescriptionInputEn"
                         type="text"
                         @blur="handleOnFocusOut($event)"
@@ -59,6 +64,7 @@
                     <textarea
                         rows="3"
                         v-model.trim="editProductDescriptionInputDe"
+                        @change="onProductDataChange()"
                         id="productDescriptionInputDe"
                         type="text"
                         @blur="handleOnFocusOut($event)"
@@ -69,6 +75,7 @@
                 <div class="form-field">
                     <input
                         v-model="editProductActiveInput"
+                        @change="onProductDataChange()"
                         id="productActiveInput"
                         type="checkbox"
                         :checked="editProductActiveInput"
@@ -78,7 +85,7 @@
             </div>
 
             <div class="product-stock" v-if="productStockArray">
-                <h2>Edit product stock</h2>
+                <h3>Edit product stock</h3>
                 <div
                     v-for="(stock, i) in productStockArray"
                     :key="i"
@@ -86,14 +93,12 @@
                 >
                     <select
                         v-model="stock.size_id"
+                        @change="onProductStockChanged()"
                         name="stock-size"
                         id="stock-size"
                     >
-                        <option
-                            :value="stock.size_id === '' ? '' : stock.size_id"
-                            selected
-                        >
-                            {{ stock.size_id === '' ? '' : stock.size_id }}
+                        <option :value="stock.size_id" selected>
+                            {{ !stock.size_id ? 'Choose size' : stock.size_id }}
                         </option>
 
                         <option value="39">39</option>
@@ -108,17 +113,18 @@
 
                     <select
                         v-model="stock.color_id"
+                        @change="onProductStockChanged()"
                         name="stock-color"
                         id="stock-color"
                     >
-                        <option
-                            :value="stock.color_id === '' ? '' : stock.color_id"
-                            selected
-                        >
-                            {{ stock.color_id === '' ? '' : stock.color_id }}
+                        <option :value="stock.color_id" selected>
+                            {{
+                                !stock.color_id
+                                    ? 'Choose color'
+                                    : stock.color_id
+                            }}
                         </option>
 
-                        <option :value="stock.color_id">Lila</option>
                         <option value="crna">crna</option>
                         <option value="bijela">bijela</option>
                         <option value="siva">siva</option>
@@ -131,6 +137,7 @@
 
                     <input
                         v-model="stock.amount"
+                        @change="onProductStockChanged()"
                         type="number"
                         placeholder="Quantity"
                     />
@@ -179,11 +186,11 @@
             </div>
 
             <div class="message">
-                <div v-if="productAddError" class="error-message">
+                <div v-if="productAddErrorMessage">
                     <Alert type="error" :message="productAddErrorMessage" />
                 </div>
-                <div v-if="productAddSuccess" class="error-message">
-                    <Alert type="success" :message="productAddErrorMessage" />
+                <div v-if="productAddSuccessMessage">
+                    <Alert type="success" :message="productAddSuccessMessage" />
                 </div>
             </div>
         </form>
@@ -191,8 +198,9 @@
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue';
-import Alert from "@/components/Alert.vue"
+import { ref } from 'vue';
+import httpService from '@/components/http-service.vue';
+import Alert from '@/components/Alert.vue';
 
 export default {
     name: 'editProduct',
@@ -206,7 +214,6 @@ export default {
     },
 
     setup(props) {
-        const axios: any = inject('axios');
         let parentCategoryId = ref(props.product.categoryId || 2);
         let product = ref(props.product);
         let editProductNameInputHr = ref(product.value.name_hr);
@@ -221,44 +228,67 @@ export default {
         let productAddError = ref(false);
         let productAddErrorMessage = ref('');
         let productStockArray = ref([]);
-        let originalProductStockArray = ref([]);
+        let productDataChanged = ref(false);
+        let productStockChanged = ref(false);
 
         const API_URL = `products/${product.value.product_slug}/product-stocks`;
-        axios
+        httpService
             .get(API_URL)
             .then((response) => {
                 productStockArray.value = response.data;
-                originalProductStockArray.value = productStockArray.value;
             })
             .catch((error) => {
                 console.error(error);
             });
 
         let attemptProductEdit = (event) => {
-            const API_URL = `products`;
+            if (productDataChanged.value) {
+                const API_URL = `products`;
 
-            let data = {
-                ...product.value,
-                name_hr: editProductNameInputHr.value,
-                name_en: editProductNameInputEn.value,
-                name_de: editProductNameInputDe.value,
-                description_hr: editProductDescriptionInputHr.value,
-                description_en: editProductDescriptionInputEn.value,
-                description_de: editProductDescriptionInputDe.value,
-                active: editProductActiveInput.value,
-            };
+                const data = {
+                    ...product.value,
+                    name_hr: editProductNameInputHr.value,
+                    name_en: editProductNameInputEn.value,
+                    name_de: editProductNameInputDe.value,
+                    description_hr: editProductDescriptionInputHr.value,
+                    description_en: editProductDescriptionInputEn.value,
+                    description_de: editProductDescriptionInputDe.value,
+                    active: editProductActiveInput.value,
+                };
 
-            console.log('Attempted product edit!');
-            console.log(data);
+                httpService
+                    .patch(API_URL, data)
+                    .then((response) => {
+                        displaySuccessMessage();
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
 
-            axios
-                .post(API_URL, data)
-                .then((response) => {
-                    displaySuccessMessage();
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            if (productStockChanged.value) {
+                const API_URL = `product-stocks/${product.value.id}`;
+
+                let data = {
+                    product_id: product.value.id,
+                    product_stocks: [...productStockArray.value],
+                };
+
+                console.log("Product stocks data");
+                console.log(data);
+                
+
+                // httpService
+                //     .patch(API_URL, data)
+                //     .then((response) => {
+                //         displaySuccessMessage();
+                //         console.log("Success!");
+                        
+                //     })
+                //     .catch((error) => {
+                //         console.error(error);
+                //     });
+            }
         };
 
         let handleOnFocusOut = (event) => {
@@ -274,9 +304,9 @@ export default {
                 productAddErrorMessage.value =
                     'An error occurred! Please check your input or try again later.';
             }
-            productAddError.value = true;
+
             setTimeout(() => {
-                productAddError.value = false;
+                productAddErrorMessage.value = '';
             }, 1000 * 5);
         };
 
@@ -288,9 +318,8 @@ export default {
                     'You have successfully edited this product!';
             }
 
-            productAddSuccess.value = true;
             setTimeout(() => {
-                productAddSuccess.value = false;
+                productAddSuccessMessage.value = '';
             }, 1000 * 5);
         };
 
@@ -301,12 +330,9 @@ export default {
             }
 
             const API_URL = `product-stocks/${stock.id}`;
-            axios
+            httpService
                 .delete(API_URL)
                 .then((response) => {
-                    console.log('Success!');
-                    console.log(response.data);
-
                     productStockArray.value.splice(index, 1);
                 })
                 .catch((error) => {
@@ -318,15 +344,20 @@ export default {
             let exampleJson = {
                 amount: 0,
                 price: 50,
-                size_id: '',
-                color_id: '',
+                size_id: null,
+                color_id: null,
                 product_id: product.value.id,
                 id: null,
             };
             productStockArray.value.push(exampleJson);
+        };
 
-            console.log('productStockArray.value');
-            console.log(productStockArray.value);
+        const onProductStockChanged = () => {
+            productStockChanged.value = true;
+        };
+
+        const onProductDataChange = () => {
+            productDataChanged.value = true;
         };
 
         return {
@@ -343,6 +374,7 @@ export default {
             productAddError,
             productAddErrorMessage,
             productStockArray,
+            productDataChanged,
 
             attemptProductEdit,
             handleOnFocusOut,
@@ -350,6 +382,10 @@ export default {
             displaySuccessMessage,
             deleteItemFromStockList,
             addToStockList,
+            onProductStockChanged,
+            onProductDataChange,
+
+            httpService,
         };
     },
 };

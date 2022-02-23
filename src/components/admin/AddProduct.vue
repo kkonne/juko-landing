@@ -4,7 +4,7 @@
             <div class="form-inputs-wrap">
                 <div class="product-data-inputs">
                     <div class="form-field">
-                        <label for="productNameInputHr">Ime artikla</label>
+                        <label for="productNameInputHr">Product name</label>
                         <input
                             v-model.trim="addProductNameInputHr"
                             id="productNameInputHr"
@@ -38,7 +38,7 @@
                 <div class="product-data-inputs">
                     <div class="form-field">
                         <label for="productDescriptionInputHr"
-                            >Opis artikla</label
+                            >Product description</label
                         >
                         <textarea
                             rows="3"
@@ -75,7 +75,7 @@
 
                 <div class="product-data-inputs">
                     <div class="form-field">
-                        <label for="productCodeInput">Šifra artikla</label>
+                        <label for="productCodeInput">Product code</label>
                         <input
                             v-model.trim="addProductCodeInput"
                             id="productCodeInput"
@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="form-field">
-                        <label for="productSexInput">Spol artikal</label>
+                        <label for="productSexInput">Sex</label>
                         <div id="productSexInput">
                             <input
                                 v-model="addProductSexInput"
@@ -94,7 +94,7 @@
                                 value="0"
                                 type="radio"
                             />
-                            <label for="productSexInput1">Muško</label>
+                            <label for="productSexInput1">Male</label>
                             <br />
                             <input
                                 v-model="addProductSexInput"
@@ -102,7 +102,7 @@
                                 value="1"
                                 type="radio"
                             />
-                            <label for="productSexInput2">Žensko</label>
+                            <label for="productSexInput2">Female</label>
                             <br />
                             <input
                                 v-model="addProductSexInput"
@@ -120,12 +120,12 @@
                             id="productActiveInput"
                             v-model="addProductActiveInput"
                         />
-                        <label for="productActiveInput">Aktivan</label>
+                        <label for="productActiveInput">Active</label>
                     </div>
 
                     <div class="form-field custom-file-upload">
                         <div>
-                            Slika artikla
+                            Product image
                             <span class="text-muted">Max 10 MB</span>
                         </div>
                         <label for="productImageInput">
@@ -152,15 +152,15 @@
             <br />
 
             <button
-                v-if="!productAddConfirm"
-                @click="toggleProductAddConfirmation()"
+                v-if="!productStockConfirm"
+                @click="toggleproductStockConfirmation()"
                 class="toggle-add-button"
             >
-                Nastavi
+                Continue with product stock
             </button>
-            <div v-if="productAddConfirm">
+            <div v-if="productStockConfirm">
                 <div class="add-stock">
-                    <p>Stanje na lageru</p>
+                    <h5>Product stock: </h5>
                     <div
                         v-for="(stock, i) in productStockArray"
                         :key="i"
@@ -172,7 +172,7 @@
                             id="stock-size"
                         >
                             <option value="" selected disabled>
-                                Odaberi veličinu
+                                Choose size
                             </option>
                             <option value="39">39</option>
                             <option value="40">40</option>
@@ -190,7 +190,7 @@
                             id="stock-color"
                         >
                             <option value="" selected disabled>
-                                Odaberi Boju
+                                Choose color
                             </option>
                             <option value="crna">crna</option>
                             <option value="bijela">bijela</option>
@@ -234,31 +234,31 @@
                     </div>
 
                     <button @click="addToStockList()" class="add-stock-button">
-                        Dodaj veličinu
+                        Add size
                     </button>
                 </div>
 
-                <Tooltip title="Napomena" text="Provjerite točnost podataka." />
+                <Tooltip title="Tip" text="Provjerite točnost podataka." />
 
                 <div class="confirm-buttons">
                     <button type="submit" class="add-product-button">
-                        Dodaj
+                        Add
                     </button>
                     <button
                         @click="$emit('cancelProductAdd')"
                         class="add-product-cancel-button"
                     >
-                        Odustani
+                        Cancel
                     </button>
                 </div>
             </div>
 
             <div class="message">
-                <div v-if="productAddError" class="error-message">
+                <div v-if="productAddErrorMessage">
                     <Alert type="error" :message="productAddErrorMessage" />
                 </div>
-                <div v-if="productAddSuccess" class="error-message">
-                    <Alert type="success" :message="productAddErrorMessage" />
+                <div v-if="productAddSuccessMessage">
+                    <Alert type="success" :message="productAddSuccessMessage" />
                 </div>
             </div>
         </form>
@@ -266,7 +266,8 @@
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
+import httpService from '@/components/http-service.vue';
 import Tooltip from '@/components/Tooltip.vue';
 import Alert from '@/components/Alert.vue';
 
@@ -283,7 +284,6 @@ export default {
     },
 
     setup(props, context) {
-        const axios: any = inject('axios');
         let parentCategoryId = ref(props.categoryId);
         let addProductNameInputHr = ref('');
         let addProductNameInputEn = ref('');
@@ -295,10 +295,8 @@ export default {
         let addProductSexInput = ref(3);
         let addProductImageInput = ref();
         let addProductActiveInput = ref(true);
-        let productAddConfirm = ref(false);
-        let productAddSuccess = ref(false);
+        let productStockConfirm = ref(false);
         let productAddSuccessMessage = ref('');
-        let productAddError = ref(false);
         let productAddErrorMessage = ref('');
         let productStockArray = ref([]);
         let stockColorOptions = ref([
@@ -311,8 +309,8 @@ export default {
             { name: 'Blue', hexcode: '#00f' },
         ]);
 
-        let toggleProductAddConfirmation = () => {
-            productAddConfirm.value = !productAddConfirm.value;
+        let toggleproductStockConfirmation = () => {
+            productStockConfirm.value = !productStockConfirm.value;
         };
 
         let attemptProductAdd = (event) => {
@@ -341,7 +339,7 @@ export default {
                 category_id: parentCategoryId.value,
             };
 
-            axios
+            httpService
                 .post(API_URL, data)
                 .then((response) => {
                     console.log('Success!');
@@ -399,7 +397,7 @@ export default {
             addProductSexInput.value = 3;
             addProductImageInput.value = null;
             addProductActiveInput.value = true;
-            productAddConfirm.value = false;
+            productStockConfirm.value = false;
         };
 
         let displayErrorMessage = (errorMessage?: string) => {
@@ -409,9 +407,9 @@ export default {
                 productAddErrorMessage.value =
                     'An error occurred! Please check your input or try again later.';
             }
-            productAddError.value = true;
+
             setTimeout(() => {
-                productAddError.value = false;
+                productAddErrorMessage.value = "";
             }, 1000 * 5);
         };
 
@@ -423,9 +421,8 @@ export default {
                     'You have successfully added a product!';
             }
 
-            productAddSuccess.value = true;
             setTimeout(() => {
-                productAddSuccess.value = false;
+                productAddSuccessMessage.value = "";
             }, 1000 * 5);
         };
 
@@ -457,10 +454,6 @@ export default {
                 return;
             }
             addProductImageInput.value = event.target.files[0];
-
-            console.log("addProductImageInput.value");
-            console.log(addProductImageInput.value);
-            
         };
 
         return {
@@ -475,15 +468,13 @@ export default {
             addProductSexInput,
             addProductImageInput,
             addProductActiveInput,
-            productAddConfirm,
-            productAddSuccess,
+            productStockConfirm,
             productAddSuccessMessage,
-            productAddError,
             productAddErrorMessage,
             productStockArray,
             stockColorOptions,
 
-            toggleProductAddConfirmation,
+            toggleproductStockConfirmation,
             attemptProductAdd,
             updateStockData,
             resetFormValues,
@@ -493,6 +484,8 @@ export default {
             addToStockList,
             deleteItemFromStockList,
             handleImageInput,
+
+            httpService,
         };
     },
 };
@@ -597,11 +590,11 @@ export default {
         }
 
         .add-product-button {
-            @apply bg-green-100 hover:bg-green-200
+            @apply bg-green-300 hover:bg-green-400
             dark:bg-green-900 dark:hover:bg-green-800;
         }
         .add-product-cancel-button {
-            @apply border-2 border-red-300 hover:border-red-500 
+            @apply border-2 border-red-300 hover:border-red-500 hover:bg-red-50
             dark:border-red-900 dark:hover:border-red-500;
         }
     }

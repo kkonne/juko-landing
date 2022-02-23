@@ -31,7 +31,8 @@ export default {
 
 <style lang="scss">
 .alert {
-    @apply w-full shadow-xl p-4 my-4 border-l-8 rounded-lg flex;
+    @apply w-full shadow-xl p-4 my-4 border-l-8 rounded-lg flex flex-col
+        md:flex-row;
         
     &.alert-success {
         @apply bg-gray-100 text-gray-900 border-green-500
@@ -44,7 +45,7 @@ export default {
     }
 
     .alert-icon {
-        @apply h-8 mr-2 flex justify-center items-center;
+        @apply h-8 w-8 mr-2 flex justify-center items-center;
 
         .icon {
             @apply w-full h-full p-1;
@@ -52,7 +53,7 @@ export default {
     }
 
     .alert-text {
-        @apply my-1;
+        @apply my-2 md:my-0;
 
         b {
             @apply text-black dark:text-white;

@@ -91,6 +91,17 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
+        path: '/b2b',
+        component: () => import('../views/B2b.vue'),
+        children: [
+            {
+                path: '',
+                name: 'B2b',
+                component: () => import('../views/b2b/Index.vue'),
+            },
+        ],
+    },
+    {
         path: '/login',
         name: 'Login',
         component: () => import('../views/Login.vue'),

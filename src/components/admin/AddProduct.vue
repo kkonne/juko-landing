@@ -153,63 +153,61 @@
 
             <button
                 v-if="!productStockConfirm"
-                @click="toggleproductStockConfirmation()"
+                @click.prevent="toggleproductStockConfirmation()"
                 class="toggle-add-button"
             >
                 Continue with product stock
             </button>
             <div v-if="productStockConfirm">
                 <div class="add-stock">
-                    <h5>Product stock: </h5>
+                    <h5>Product stock:</h5>
                     <div
                         v-for="(stock, i) in productStockArray"
                         :key="i"
                         class="stock-list-wrap"
                     >
                         <select
-                            v-model="stock.size"
+                            v-model="stock.size_id"
                             name="stock-size"
                             id="stock-size"
                         >
                             <option value="" selected disabled>
                                 Choose size
                             </option>
-                            <option value="39">39</option>
-                            <option value="40">40</option>
-                            <option value="41">41</option>
-                            <option value="42">42</option>
-                            <option value="43">43</option>
-                            <option value="44">44</option>
-                            <option value="45">45</option>
-                            <option value="46">46</option>
+                            <option
+                                v-for="(size, i) in productSizes"
+                                :key="i"
+                                :value="size.id"
+                            >
+                                {{ size.value }}
+                            </option>
                         </select>
 
                         <select
-                            v-model="stock.color"
+                            v-model="stock.color_id"
                             name="stock-color"
                             id="stock-color"
                         >
                             <option value="" selected disabled>
                                 Choose color
                             </option>
-                            <option value="crna">crna</option>
-                            <option value="bijela">bijela</option>
-                            <option value="siva">siva</option>
-                            <option value="zlatna">42</option>
-                            <option value="navy">navy</option>
-                            <option value="plavo">plavo</option>
-                            <option value="royal">royal</option>
-                            <option value="žuto">žuto</option>
+                            <option
+                                v-for="(color, i) in productColors"
+                                :key="i"
+                                :value="color.id"
+                            >
+                                {{ color.value }}
+                            </option>
                         </select>
 
                         <input
-                            v-model="stock.quantity"
+                            v-model="stock.amount"
                             type="number"
                             placeholder="Količina"
                         />
 
                         <div
-                            @click="deleteItemFromStockList(i)"
+                            @click.prevent="deleteItemFromStockList(i)"
                             class="delete-stock-icon"
                         >
                             <svg
@@ -233,7 +231,10 @@
                         </div>
                     </div>
 
-                    <button @click="addToStockList()" class="add-stock-button">
+                    <button
+                        @click.prevent="addToStockList()"
+                        class="add-stock-button"
+                    >
                         Add size
                     </button>
                 </div>
@@ -245,7 +246,7 @@
                         Add
                     </button>
                     <button
-                        @click="$emit('cancelProductAdd')"
+                        @click.prevent="$emit('cancelProductAdd')"
                         class="add-product-cancel-button"
                     >
                         Cancel
@@ -299,28 +300,20 @@ export default {
         let productAddSuccessMessage = ref('');
         let productAddErrorMessage = ref('');
         let productStockArray = ref([]);
-        let stockColorOptions = ref([
-            { name: 'Black', hexcode: '#000' },
-            { name: 'White', hexcode: '#fff' },
-            { name: 'Lightgrey', hexcode: '#ccc' },
-            { name: 'Darkgrey', hexcode: '#555' },
-            { name: 'Grey', hexcode: '#888' },
-            { name: 'Red', hexcode: '#f00' },
-            { name: 'Blue', hexcode: '#00f' },
-        ]);
+        let productSizes = [
+            { value: '41', id: 1 },
+            { id: 2, value: '42' },
+        ];
+        let productColors = [
+            { id: 1, name: 'Crna' },
+            { id: 2, name: 'Crvena' },
+        ];
 
         let toggleproductStockConfirmation = () => {
             productStockConfirm.value = !productStockConfirm.value;
         };
 
         let attemptProductAdd = (event) => {
-            // finish form validation, low battery
-            // console.log('add product event');
-            // console.log(event.target.elements);
-            // const formElements = event.target.elements;
-            // for (var i = 0, element; (element = formElements[i++]); ) {
-            //     console.log(element.value);
-            // }
 
             const API_URL = `products`;
 
@@ -348,7 +341,7 @@ export default {
                     if (!productStockArray.value.length) {
                         displaySuccessMessage();
                         resetFormValues();
-                        context.emit("updateCategoriesProductList");
+                        context.emit('updateCategoriesProductList');
                     }
 
                     const productData = response.data;
@@ -361,29 +354,32 @@ export default {
         };
 
         let updateStockData = (product) => {
-            productStockArray.value.map(stock => stock.product_id = product.id);
+            productStockArray.value.map(
+                (stock) => (stock.product_id = product.id)
+            );
+
+            console.log('productStockArray.value');
             console.log(productStockArray.value);
-            // uploadStockData...
-            return;
 
-            // const API_URL = `product_stock/${slug}`;
-            // let data = {
-            //     product_stock: productStockArray,
-            // };
+            const API_URL = `product-stocks`;
+            let data = {
+                product_stocks: productStockArray.value,
+                product_id: product.id,
+            };
 
-            // axios
-            //     .post(API_URL, data)
-            //     .then((response) => {
-            //         console.log('Success!');
-            //         console.log(response.data);
+            httpService
+                .post(API_URL, data)
+                .then((response) => {
+                    console.log('Success!');
+                    console.log(response.data);
 
-            //         displaySuccessMessage();
-            //         resetFormValues();
-            //     })
-            //     .catch((error) => {
-            //         console.log(error);
-            //         displayErrorMessage();
-            //     });
+                    displaySuccessMessage();
+                    resetFormValues();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    displayErrorMessage();
+                });
         };
 
         let resetFormValues = () => {
@@ -409,7 +405,7 @@ export default {
             }
 
             setTimeout(() => {
-                productAddErrorMessage.value = "";
+                productAddErrorMessage.value = '';
             }, 1000 * 5);
         };
 
@@ -422,7 +418,7 @@ export default {
             }
 
             setTimeout(() => {
-                productAddSuccessMessage.value = "";
+                productAddSuccessMessage.value = '';
             }, 1000 * 5);
         };
 
@@ -438,7 +434,7 @@ export default {
                 price: 1,
                 size_id: 1,
                 color_id: 2,
-            }
+            };
             productStockArray.value.push(templateJson);
         };
 
@@ -472,7 +468,8 @@ export default {
             productAddSuccessMessage,
             productAddErrorMessage,
             productStockArray,
-            stockColorOptions,
+            productColors,
+            productSizes,
 
             toggleproductStockConfirmation,
             attemptProductAdd,
@@ -595,7 +592,7 @@ export default {
         }
         .add-product-cancel-button {
             @apply border-2 border-red-300 hover:border-red-500 hover:bg-red-50
-            dark:border-red-900 dark:hover:border-red-500;
+            dark:border-red-900 dark:hover:border-red-500 dark:hover:bg-red-900;
         }
     }
 }

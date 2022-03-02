@@ -52,11 +52,18 @@
 
                     <div class="footer-other">
                         <div class="helpful-links">
-                            <div class="other-link">Privatnost</div>
-                            <div class="other-link">Kolačići</div>
-                            <div class="other-link">B2B</div>
-                            <div @click="routerService.routerLinkTo('/admin')"
-                            class="other-link">Admin</div>
+                            <div
+                                @click="routerService.routerLinkTo('/b2b')"
+                                class="other-link"
+                            >
+                                B2B
+                            </div>
+                            <div
+                                @click="routerService.routerLinkTo('/admin')"
+                                class="other-link"
+                            >
+                                Admin
+                            </div>
                         </div>
                         <div class="social-media">
                             <div class="other-link">Fb</div>
@@ -84,7 +91,7 @@ export default {
     setup() {
         return {
             routerService,
-        }
+        };
     },
 };
 </script>

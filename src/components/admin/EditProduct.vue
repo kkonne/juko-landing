@@ -101,14 +101,13 @@
                             {{ !stock.size_id ? 'Choose size' : stock.size_id }}
                         </option>
 
-                        <option value="39">39</option>
-                        <option value="40">40</option>
-                        <option value="41">41</option>
-                        <option value="42">42</option>
-                        <option value="43">43</option>
-                        <option value="44">44</option>
-                        <option value="45">45</option>
-                        <option value="46">46</option>
+                        <option
+                            v-for="(size, i) in productSizes"
+                            :key="i"
+                            :value="size.id"
+                        >
+                            {{ size.value }}
+                        </option>
                     </select>
 
                     <select
@@ -125,14 +124,13 @@
                             }}
                         </option>
 
-                        <option value="crna">crna</option>
-                        <option value="bijela">bijela</option>
-                        <option value="siva">siva</option>
-                        <option value="zlatna">42</option>
-                        <option value="navy">navy</option>
-                        <option value="plavo">plavo</option>
-                        <option value="royal">royal</option>
-                        <option value="žuto">žuto</option>
+                        <option
+                            v-for="(color, i) in productColors"
+                            :key="i"
+                            :value="color.id"
+                        >
+                            {{ color.value }}
+                        </option>
                     </select>
 
                     <input
@@ -230,12 +228,22 @@ export default {
         let productStockArray = ref([]);
         let productDataChanged = ref(false);
         let productStockChanged = ref(false);
+        let productSizes = [
+            { value: '41', id: 1 },
+            { id: 2, value: '42' },
+        ];
+        let productColors = [
+            { id: 1, name: 'Crna' },
+            { id: 2, name: 'Crvena' },
+        ];
 
         const API_URL = `products/${product.value.product_slug}/product-stocks`;
         httpService
             .get(API_URL)
             .then((response) => {
                 productStockArray.value = response.data;
+                console.log('productStockArray.value');
+                console.log(productStockArray.value);
             })
             .catch((error) => {
                 console.error(error);
@@ -243,10 +251,11 @@ export default {
 
         let attemptProductEdit = (event) => {
             if (productDataChanged.value) {
-                const API_URL = `products`;
+                const API_URL = `product-stocks`;
 
                 const data = {
-                    ...product.value,
+                    category_id: product.value.category_id,
+                    code: product.value.code,
                     name_hr: editProductNameInputHr.value,
                     name_en: editProductNameInputEn.value,
                     name_de: editProductNameInputDe.value,
@@ -254,6 +263,7 @@ export default {
                     description_en: editProductDescriptionInputEn.value,
                     description_de: editProductDescriptionInputDe.value,
                     active: editProductActiveInput.value,
+                    image_path: product.value.image_path,
                 };
 
                 httpService
@@ -267,27 +277,25 @@ export default {
             }
 
             if (productStockChanged.value) {
-                const API_URL = `product-stocks/${product.value.id}`;
+                const API_URL = `product-stocks`;
 
                 let data = {
                     product_id: product.value.id,
                     product_stocks: [...productStockArray.value],
                 };
 
-                console.log("Product stocks data");
+                console.log('Product stocks data');
                 console.log(data);
-                
 
-                // httpService
-                //     .patch(API_URL, data)
-                //     .then((response) => {
-                //         displaySuccessMessage();
-                //         console.log("Success!");
-                        
-                //     })
-                //     .catch((error) => {
-                //         console.error(error);
-                //     });
+                httpService
+                    .post(API_URL, data)
+                    .then((response) => {
+                        displaySuccessMessage();
+                        console.log('Success!');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             }
         };
 
@@ -348,6 +356,8 @@ export default {
                 color_id: null,
                 product_id: product.value.id,
                 id: null,
+                delivery_amount: null,
+                delivery_date: null,
             };
             productStockArray.value.push(exampleJson);
         };
@@ -375,6 +385,8 @@ export default {
             productAddErrorMessage,
             productStockArray,
             productDataChanged,
+            productSizes,
+            productColors,
 
             attemptProductEdit,
             handleOnFocusOut,

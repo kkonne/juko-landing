@@ -32,7 +32,7 @@ export default {
 <style lang="scss">
 .alert {
     @apply w-full shadow-xl p-4 my-4 border-l-8 rounded-lg flex flex-col
-        md:flex-row;
+        md:flex-row md:items-center;
         
     &.alert-success {
         @apply bg-gray-100 text-gray-900 border-green-500

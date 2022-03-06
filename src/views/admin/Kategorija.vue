@@ -178,6 +178,81 @@
                             Cancel
                         </button>
                     </div>
+
+                    <div
+                        v-if="category.children_categories.length"
+                        class="child-categories"
+                    >
+                        <div
+                            v-for="(
+                                childCategory, i
+                            ) in category.children_categories"
+                            :key="-i"
+                            class="child-categories-item"
+                        >
+                            <div class="child-categories-item-main">
+                                <div class="category-name">
+                                    {{ childCategory.category_name }}
+                                </div>
+
+                                <div
+                                    v-if="
+                                        !childCategory.isEditCategoryToggled &&
+                                        !childCategory.isDeleteCategoryToggled
+                                    "
+                                    class="category-actions"
+                                >
+                                    <button
+                                        @click="
+                                            toggleCategoryEdit(childCategory)
+                                        "
+                                        class="category-edit-toggle"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        @click="
+                                            toggleCategoryDelete(childCategory)
+                                        "
+                                        class="category-delete-toggle"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div v-if="childCategory.isEditCategoryToggled">
+                                <EditCategory
+                                    :category="childCategory"
+                                    @cancel-category-edit="
+                                        toggleCategoryEdit(childCategory)
+                                    "
+                                />
+                            </div>
+                            <div
+                                v-if="childCategory.isDeleteCategoryToggled"
+                                class="category-delete-confirm"
+                            >
+                                <button
+                                    @click="
+                                        attemptCategoryDelete(
+                                            childCategory.category_slug,
+                                            i
+                                        )
+                                    "
+                                    class="category-delete-button"
+                                >
+                                    Delete
+                                </button>
+                                <button
+                                    @click="toggleCategoryDelete(childCategory)"
+                                    class="category-delete-cancel"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -188,7 +263,7 @@
 import { ref } from 'vue';
 import routerService from '@/services/router-service';
 import httpService from '@/services/http-service';
-import EditCategory from "@/components/admin/EditCategory.vue"
+import EditCategory from '@/components/admin/EditCategory.vue';
 import Alert from '@/components/Alert.vue';
 
 export default {
@@ -433,22 +508,17 @@ export default {
                             dark:text-gray-300;
                     }
                 }
+            }
 
-                .category-actions {
-                    @apply flex flex-row gap-2;
+            .child-categories {
+                @apply my-4;
 
-                    button {
-                        @apply px-4 py-2 border;
-                    }
+                .child-categories-item {
+                    @apply py-2 px-4 my-4 bg-gray-500 bg-opacity-20;
 
-                    .category-edit-toggle {
-                        @apply border-blue-400 hover:bg-blue-400
-                            dark:border-blue-900 dark:hover:bg-blue-900;
-                    }
-
-                    .category-delete-toggle {
-                        @apply border-red-400 hover:bg-red-400
-                            dark:border-red-800 dark:hover:bg-red-800;
+                    .child-categories-item-main {
+                        @apply flex flex-col justify-center items-start 
+                            md:flex-row md:items-center md:justify-between;
                     }
                 }
             }
@@ -467,6 +537,24 @@ export default {
             }
             .category-delete-cancel {
                 @apply border border-gray-500 hover:bg-gray-500;
+            }
+        }
+
+        .category-actions {
+            @apply flex flex-row gap-2;
+
+            button {
+                @apply px-4 py-2 border;
+            }
+
+            .category-edit-toggle {
+                @apply border-blue-400 hover:bg-blue-400
+                            dark:border-blue-900 dark:hover:bg-blue-900;
+            }
+
+            .category-delete-toggle {
+                @apply border-red-400 hover:bg-red-400
+                            dark:border-red-800 dark:hover:bg-red-800;
             }
         }
     }

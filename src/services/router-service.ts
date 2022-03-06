@@ -1,18 +1,17 @@
-import router from "@/router";
+import router from '@/router';
 
 export default new (class {
-    myMixin = {
-        created() {
-            this.hello();
-        },
-        methods: {
-            hello() {
-                console.log('hello from mixin!');
-            },
-        },
+    afterLoginUrl: string = null;
+
+    routerLinkTo = (param: string): void => {
+        router.push(param);
     };
 
-    routerLinkTo = (param: string) => {
-        router.push(param);
-    }
+    setAfterLoginUrl = (param: string): void => {
+        this.afterLoginUrl = param;
+    };
+    
+    getAfterLoginUrl = (): string => {
+        return this.afterLoginUrl;
+    };
 })();

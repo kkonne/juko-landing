@@ -5,12 +5,9 @@
                 <div class="landing-text">
                     <h1
                         class="title"
-                        v-html="
-                            homePageAssets?.text['landing-title'] ||
-                            'Juko'
-                        "
+                        v-html="homePageAssets?.text['landing-title'] || 'Juko'"
                     ></h1>
-                    <h4 class="subtitle">
+                    <h4 class="subheading">
                         Delivering high quality workwear equipment since 2014.
                     </h4>
                 </div>
@@ -27,7 +24,6 @@
                                 height="235.79"
                                 rx="8.71"
                             />
-                                <!-- fill="#b5b5b580" -->
                             <rect
                                 x="109.59"
                                 y="112.27"
@@ -35,7 +31,6 @@
                                 height="235.79"
                                 rx="8.71"
                             />
-                                <!-- fill="#e5e5e580" -->
                             <g id="suit_icon" style="--order: 1">
                                 <polygon
                                     points="180.42 129.27 172.5 126.31 142.49 156.36 147.91 161.78 180.42 129.27"
@@ -1031,32 +1026,22 @@ export default {
             }, 100);
         };
 
-        window.addEventListener('scroll', handleScrollEvent);
+        const onInit = () => {
+            window.addEventListener('scroll', handleScrollEvent);
+        };
 
         onUnmounted(() => {
             window.removeEventListener('scroll', handleScrollEvent);
         });
 
-        // let loadPageAssets = () => {
-        //     httpService
-        //     .get('lang-assets/page-content/naslovna')
-        //     .then((response) => {
-        //         homePageAssets.value = response.data;
-
-        //         console.log('homePageAssets 🔥');
-        //         console.log(homePageAssets.value);
-        //         console.log(response.data);
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
-        // };
+        onInit();
 
         return {
             isScrolled,
             homePageAssets,
 
             handleScrollEvent,
+            onInit,
 
             routerService,
             httpService,
@@ -1085,7 +1070,7 @@ export default {
                 @apply uppercase font-bold;
             }
 
-            .subtitle {
+            .subheading {
                 @apply mx-auto md:ml-auto md:mr-0;
                 max-width: 40ch;
             }

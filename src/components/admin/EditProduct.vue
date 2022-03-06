@@ -251,7 +251,7 @@ export default {
 
         let attemptProductEdit = (event) => {
             if (productDataChanged.value) {
-                const API_URL = `product-stocks`;
+                const API_URL = `products/${product.value.product_slug}`;
 
                 const data = {
                     category_id: product.value.category_id,

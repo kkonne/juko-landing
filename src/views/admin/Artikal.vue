@@ -218,10 +218,10 @@ export default {
             httpService
                 .get(API_URL)
                 .then((response) => {
-                    productsList.value = response.data;
+                    productsList.value = response.data[0].products;
 
                     console.log('products data 👖');
-                    console.log(response.data);
+                    console.log(response.data[0].products);
                 })
                 .catch((error) => {
                     console.log(error);

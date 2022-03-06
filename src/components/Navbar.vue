@@ -47,10 +47,7 @@
                     </div>
 
                     <div class="header-end">
-                        <div
-                            class="nav-item"
-                            v-if="isUserLoggedIn"
-                        >
+                        <div class="nav-item" v-if="isUserLoggedIn">
                             <div @click="attemptLogout()" class="logout">
                                 Log out
                             </div>
@@ -204,8 +201,12 @@ export default {
         };
 
         let attemptLogout = () => {
-            userService.logout();
-            isUserLoggedIn.value = false;
+            try {
+                userService.logout();
+                isUserLoggedIn.value = false;
+            } catch (error) {
+                console.log(error);
+            }
         };
 
         let toggleColorTheme = () => {

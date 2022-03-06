@@ -10,8 +10,8 @@ export default new (class {
     setAfterLoginUrl = (param: string): void => {
         this.afterLoginUrl = param;
     };
-    
+
     getAfterLoginUrl = (): string => {
-        return this.afterLoginUrl;
+        return this.afterLoginUrl || '';
     };
 })();

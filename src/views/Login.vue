@@ -68,6 +68,7 @@
 
 <script lang="ts">
 import { ref } from 'vue';
+import authStore from '@/store/auth';
 import routerService from '@/services/router-service';
 import httpService from '@/services/http-service';
 import generalService from '@/services/general-service';
@@ -88,13 +89,11 @@ export default {
 
         let onInit = () => {
             if (userService.isUserLoggedIn()) {
-                console.log("Ciciban");
-                
                 routerService.routerLinkTo('/');
             }
         };
 
-        let attemptLogin = () => {
+        let attemptLogin = async () => {
             if (!loginEmailInput.value || !loginPasswordInput.value) {
                 displayErrorMessage('All fields required!');
                 return;
@@ -105,20 +104,18 @@ export default {
                 password: loginPasswordInput.value,
             };
 
-            const API_URL = 'login';
-            httpService
-                .post(API_URL, data)
-                .then((response) => {
-                    userService.setUserToken(response.data.token);
-                    routerService.routerLinkTo("/");
-                })
-                .catch((error) => {
-                    console.log(error);
-                    displayErrorMessage();
-                });
+            try {
+                const response = await userService.login(data);
+                userService.setUserToken(response.data.token);
+                authStore.setUser(response.data.user);
+                handleAfterLoginRedirect();
+            } catch (error) {
+                console.log(error);
+                displayErrorMessage();
+            }
         };
 
-        let handleInputState = (event) => {
+        const handleInputState = (event): void => {
             if (!event.currentTarget.value) {
                 event.currentTarget.classList.add('faulty');
             } else {
@@ -126,13 +123,13 @@ export default {
             }
         };
 
-        let handleOnBlur = (event) => {
+        const handleOnBlur = (event): void => {
             if (!event.currentTarget.value) {
                 displayErrorMessage('All fields required!');
             }
         };
 
-        let displayErrorMessage = (errorMessage?: string) => {
+        const displayErrorMessage = (errorMessage?: string): void => {
             if (errorMessage) {
                 loginErrorMessage.value = errorMessage;
             } else {
@@ -143,6 +140,15 @@ export default {
             setTimeout(() => {
                 loginErrorMessage.value = '';
             }, 1000 * 5);
+        };
+
+        const handleAfterLoginRedirect = (): void => {
+            const afterLoginRedirectUrl = routerService.getAfterLoginUrl();
+            if (afterLoginRedirectUrl) {
+                routerService.routerLinkTo(afterLoginRedirectUrl);
+            } else {
+                routerService.routerLinkTo('/');
+            }
         };
 
         onInit();
@@ -156,6 +162,7 @@ export default {
             handleInputState,
             handleOnBlur,
             attemptLogin,
+            handleAfterLoginRedirect,
 
             routerService,
             httpService,

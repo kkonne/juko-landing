@@ -1,3 +1,4 @@
+import routerService from '@/services/router-service';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 
@@ -67,6 +68,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/admin',
         component: () => import('../views/Admin.vue'),
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '',
@@ -93,6 +95,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/b2b',
         component: () => import('../views/B2b.vue'),
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '',
@@ -145,6 +148,21 @@ const router = createRouter({
             return { top: 0 };
         }
     },
+});
+
+router.beforeEach((to, from, next) => {
+    if (!to.meta.requiresAuth) {
+        next();
+        return;
+    }
+
+    const isUserLoggedIn = !!sessionStorage.getItem('user-auth-token');
+    if (!isUserLoggedIn) {
+        routerService.setAfterLoginUrl(to.path);
+        next({ name: 'Login' });
+    } else {
+        next();
+    }
 });
 
 export default router;

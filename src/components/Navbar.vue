@@ -268,8 +268,7 @@ header {
     @apply w-full flex flex-row m-0;
 
     .theme-switch {
-        @apply h-12 w-12 p-2 mr-2 rounded-3xl cursor-pointer duration-500
-            hover:bg-red-400;
+        @apply h-12 w-12 p-2 mr-2 rounded-3xl cursor-pointer;
 
         img {
             @apply h-full w-full;
@@ -286,8 +285,8 @@ header {
 
     .header-main {
         @apply relative w-full hidden md:flex flex-row items-center justify-between text-lg
-            lowercase bg-gray-800 py-2 text-gray-100
-            dark:bg-gray-100 dark:text-gray-800;
+            lowercase bg-gray-100 py-2 text-gray-800
+            dark:bg-gray-800 dark:text-gray-100;
         width: -moz-available;
         width: -webkit-fill-available;
         width: fill-available;
@@ -307,8 +306,11 @@ header {
         }
 
         .theme-switch {
+            @apply bg-gray-800 dark:bg-gray-100
+                hover:bg-red-400 dark:hover:bg-red-400;
+
             &:hover {
-                @apply rounded-md;
+                @apply rounded-xl;
             }
         }
 

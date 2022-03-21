@@ -1,24 +1,60 @@
 <template>
-    <div id="proizvodi-index">
+    <div id="products-index">
         <div class="products-main container">
-            <div class="products-header">
-                <h1 class="headline">Products</h1>
-                <div class="subtitle">Here you can browse our products...</div>
-            </div>
+            <div class="products-main container">
+                <div class="products-header">
+                    <h1 class="headline">Products</h1>
 
-            <div class="products-wrap">
-                <!-- <div class="product" v-for="(product, i) in apiData.data" :key="i"> -->
-                <div
-                    class="product"
-                    v-for="(product, i) in mockData.data"
-                    :key="i"
-                >
-                    <div class="product-icon">
-                        <img width="100%" height="100%" :src="product.icon" />
+                    <div class="subtitle">
+                        Here you can browse our products...
                     </div>
+                </div>
 
-                    <div class="product-title">{{ product.name.hr }}</div>
-                    <!-- <router-link to="/proizvodi/odjeca">Odjeća</router-link> -->
+                <div v-if="categoriesList.length">
+                    <div class="categories-wrap">
+                        <div
+                            class="category-item"
+                            :class="productsList?.length && 'compact'"
+                            v-for="(category, i) in categoriesList"
+                            :key="i"
+                            @click="selectCategory(category)"
+                        >
+                            <div class="image">Cat image</div>
+                            <div class="title">
+                                {{ category.category_name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div v-if="productsList.length">
+                    <div class="products-wrap">
+                        <div
+                            class="product-item"
+                            v-for="(product, i) in productsList"
+                            :key="i"
+                        >
+                            <div class="image">Prod image</div>
+                            <div class="title">{{ product.product_name }}</div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div v-if="!categoriesList.length">
+                    <div class="skeleton-wrap">
+                        <div
+                            v-for="(product, i) in [1, 2, 3, 4, 5, 6, 7, 8]"
+                            :key="i"
+                            class="skeleton-item"
+                        >
+                            <div class="image pulse"></div>
+                            <div class="heading-main">
+                                <div class="heading col-span-2 pulse"></div>
+                                <div class="heading col-span-1 pulse"></div>
+                            </div>
+                            <div class="description pulse"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,175 +63,116 @@
 
 <script lang="ts">
 import { ref } from 'vue';
+import httpService from '@/services/http-service';
+import routerService from '@/services/router-service';
 
 export default {
+    name: 'Products',
+
     setup() {
-        let mockData = ref({
-            currentEndpoint: 'api/proizvodi',
-            currentLang: 'hr',
-            endpoint: {
-                hr: 'api/proizvodi',
-                en: 'api/products',
-                de: 'api/produkte',
-            },
-            data: [
-                {
-                    id: 71,
-                    name: {
-                        hr: 'Odjeća',
-                        en: 'Garments',
-                    },
-                    slug: {
-                        hr: 'odjeca',
-                        en: 'garments',
-                    },
-                    api_endpoint: {
-                        en: '/api/garments/all',
-                        hr: '/api/proizvodi/sve',
-                    },
-                    icon: 'https://www.cerva.com/medias/?context=bWFzdGVyfGltYWdlc3w2NDd8aW1hZ2Uvc3ZnK3htbHw4ODI0MTc3NDU5MjMwfGJmOTA0MGQ2OWY1ZTk3ZjMwYTY1YzM2OWNkMmYwMmJlM2ZmNDQyZjU2OTU3Y2M4YjE1MzRhODE2M2VkMjc3ZGQ',
-                },
-                {
-                    id: 72,
-                    name: {
-                        hr: 'Obuća',
-                        en: 'Shoes',
-                    },
-                    slug: {
-                        hr: 'obuca',
-                        en: 'shoes',
-                    },
-                    api_endpoint: {
-                        en: '/api/shoes/all',
-                        hr: '/api/cipele/sve',
-                    },
-                    icon: 'https://www.cerva.com/medias/?context=bWFzdGVyfGltYWdlc3wxOTMwfGltYWdlL3N2Zyt4bWx8ODgyNDE4MTUyMjQ2MnxmZDAwOWI1YTUzOGM1YjM4ZmNjNmU0NDRhY2MzZTE3NmFkNGZlZWIwMGNjZjA0NzEyNTdmNzI3ZWYzMDViMjBl',
-                },
-                {
-                    id: 73,
-                    name: {
-                        hr: 'Rukavice',
-                        en: 'Gloves',
-                    },
-                    slug: {
-                        hr: 'rukavice',
-                        en: 'gloves',
-                    },
-                    api_endpoint: {
-                        en: '/api/gloves/all',
-                        hr: '/api/rukavice/sve',
-                    },
-                    icon: 'https://www.cerva.com/medias/?context=bWFzdGVyfGltYWdlc3wxMDQwfGltYWdlL3N2Zyt4bWx8ODgyNDE3NzcyMTM3NHw2ZmY0MTczZDgxY2U3MzMxYjRhOGM1NzVlNjkyMmNlYTY4ZDM0MzBiY2E1YWQyN2E2NDI0MmY5ZTE3ZTdiOTUz',
-                },
-                {
-                    id: 74,
-                    name: {
-                        hr: 'Zaštita sluha',
-                        en: 'Hearing protection',
-                    },
-                    slug: {
-                        hr: 'zastita-sluha',
-                        en: 'hearing-protection',
-                    },
-                    api_endpoint: {
-                        en: '/api/hearing-protection/all',
-                        hr: '/api/zastita-uha/sve',
-                    },
-                    icon: 'https://www.cerva.com/medias/?context=bWFzdGVyfGltYWdlc3wxMTY1fGltYWdlL3N2Zyt4bWx8ODgyNDE3OTAzMjA5NHw2Y2NiMDc5ZTY5YjNlOTcyNjEwMTU5ZmQ3MmIyZWY1YWY4ZjBlM2MyM2EzOGUzYjI1MjFhOGY4ZGQ2MjZmNjI3',
-                },
-                {
-                    id: 72,
-                    name: {
-                        hr: 'Obuća',
-                        en: 'Shoes',
-                    },
-                    slug: {
-                        hr: 'obuca',
-                        en: 'shoes',
-                    },
-                    api_endpoint: {
-                        en: '/api/shoes/all',
-                        hr: '/api/cipele/sve',
-                    },
-                    icon: 'https://www.cerva.com/medias/?context=bWFzdGVyfGltYWdlc3wxOTMwfGltYWdlL3N2Zyt4bWx8ODgyNDE4MTUyMjQ2MnxmZDAwOWI1YTUzOGM1YjM4ZmNjNmU0NDRhY2MzZTE3NmFkNGZlZWIwMGNjZjA0NzEyNTdmNzI3ZWYzMDViMjBl',
-                },
-                {
-                    id: 73,
-                    name: {
-                        hr: 'Rukavice',
-                        en: 'Gloves',
-                    },
-                    slug: {
-                        hr: 'rukavice',
-                        en: 'gloves',
-                    },
-                    api_endpoint: {
-                        en: '/api/gloves/all',
-                        hr: '/api/rukavice/sve',
-                    },
-                    icon: 'https://www.cerva.com/medias/?context=bWFzdGVyfGltYWdlc3wxMDQwfGltYWdlL3N2Zyt4bWx8ODgyNDE3NzcyMTM3NHw2ZmY0MTczZDgxY2U3MzMxYjRhOGM1NzVlNjkyMmNlYTY4ZDM0MzBiY2E1YWQyN2E2NDI0MmY5ZTE3ZTdiOTUz',
-                },
-                {
-                    id: 74,
-                    name: {
-                        hr: 'Zaštita sluha',
-                        en: 'Hearing protection',
-                    },
-                    slug: {
-                        hr: 'zastita-sluha',
-                        en: 'hearing-protection',
-                    },
-                    api_endpoint: {
-                        en: '/api/hearing-protection/all',
-                        hr: '/api/zastita-uha/sve',
-                    },
-                    icon: 'https://www.cerva.com/medias/?context=bWFzdGVyfGltYWdlc3wxMTY1fGltYWdlL3N2Zyt4bWx8ODgyNDE3OTAzMjA5NHw2Y2NiMDc5ZTY5YjNlOTcyNjEwMTU5ZmQ3MmIyZWY1YWY4ZjBlM2MyM2EzOGUzYjI1MjFhOGY4ZGQ2MjZmNjI3',
-                },
-            ],
-            text: {
-                title: {
-                    hr: 'Proizvodi',
-                    en: 'Products',
-                },
-                subtitle: {
-                    hr: 'Na ovoj stranici možete pogeldati sve proizvode koje nudimo...',
-                    en: 'Browse all of our available products',
-                },
-            },
-        });
-    
+        let categoriesList = ref([]);
+        let productsList = ref([]);
+
+        const onInit = () => {
+            const API_URL = 'categories';
+            httpService
+                .get(API_URL)
+                .then((response) => {
+                    categoriesList.value = response.data;
+
+                    console.log('data 🔥');
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
+
+        const selectCategory = (category) => {
+            console.log('category');
+            console.log(category);
+
+            const route = `/proizvodi/${category.category_slug}`;
+            routerService.routerLinkTo(route);
+
+            // if (category.children_categories.length) {
+            //     categoriesList.value = category.children_categories;
+            //     return;
+            // }
+
+            // const API_URL = `categories/${category.category_slug}/products`;
+            // httpService
+            //     .get(API_URL)
+            //     .then((response) => {
+            //         productsList.value = response.data[0].products;
+
+            //         console.log('data 🔥');
+            //         console.log(response.data);
+            //         console.log(productsList.value);
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+            //     });
+        };
+
+        onInit();
+
         return {
-            mockData,
-        }
+            categoriesList,
+            productsList,
+
+            selectCategory,
+        };
     },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .products-main {
     @apply my-10;
 
-    .products-header {
-        @apply my-5;
-    }
-
-    .products-wrap {
-        @apply grid grid-cols-2 gap-2 py-10 cursor-pointer
+    .categories-wrap {
+        @apply grid grid-cols-2 gap-2 my-8
             sm:grid-cols-3 md:grid-cols-4 md:gap-4;
 
-        .product {
-            @apply p-2 bg-red-50 hover:shadow-lg;
+        .category-item {
+            @apply px-4 py-8 flex flex-col items-center gap-4 cursor-pointer
+                bg-gray-500 bg-opacity-20;
 
-            .product-icon {
-                @apply w-full p-4;
+            &.compact {
+                @apply flex-row justify-center items-start gap-2 p-2;
+            }
+        }
+    }
 
-                img {
-                    @apply w-full h-full;
+    .skeleton-wrap {
+        @apply grid grid-cols-2 gap-2 my-8
+            sm:grid-cols-3 md:grid-cols-4 md:gap-4;
+
+        .skeleton-item {
+            @apply flex flex-col p-4 bg-gray-300
+                dark:bg-gray-700;
+
+            .pulse {
+                @apply animate-pulse bg-gray-400
+                    dark:bg-gray-600;
+            }
+
+            .image {
+                @apply w-20 h-20 rounded-full;
+            }
+
+            .heading-main {
+                @apply grid grid-cols-3 gap-2 mt-4
+                    md:gap-6;
+
+                .heading {
+                    @apply h-4 rounded;
                 }
             }
 
-            .product-title {
-                @apply font-bold uppercase mx-4 my-2;
+            .description {
+                @apply mt-3 h-12 rounded;
             }
         }
     }

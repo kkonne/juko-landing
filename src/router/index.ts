@@ -10,32 +10,17 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/proizvodi',
-        component: () => import('../views/Proizvodi.vue'),
+        component: () => import('../views/Products.vue'),
         children: [
             {
                 path: '',
-                name: 'Proizvodi',
-                component: () => import('../views/proizvodi/Index.vue'),
+                name: 'Products',
+                redirect: { name: 'Products category', params: { id: 'svi' } },
             },
             {
                 path: ':id',
-                component: () => import('../views/proizvodi/Kategorije.vue'),
-                children: [
-                    {
-                        path: '',
-                        name: 'Kategorije',
-                        component: () =>
-                            import('../views/proizvodi/kategorije/Index.vue'),
-                    },
-                    {
-                        path: ':id',
-                        name: 'Kategorija',
-                        component: () =>
-                            import(
-                                '../views/proizvodi/kategorije/Kategorija.vue'
-                            ),
-                    },
-                ],
+                name: 'Products category',
+                component: () => import('../views/proizvodi/Category.vue'),
             },
         ],
     },

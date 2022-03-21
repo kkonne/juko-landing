@@ -1,13 +1,11 @@
 <template>
-    <div id="kategorije">
+    <div id="products">
         <router-view></router-view>
     </div>
 </template>
 
 <script lang="ts">
-export default {
-    name: 'Kategorije',
-};
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+</style>

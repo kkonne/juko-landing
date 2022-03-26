@@ -1,7 +1,7 @@
 import { reactive, computed } from 'vue';
 
 type Cart = {
-    items: CartItem[];
+    items?: CartItem[];
 };
 
 type CartItem = {
@@ -10,13 +10,13 @@ type CartItem = {
 };
 
 const state = reactive({
-    cart: null,
+    cart: <Cart>{},
 });
 
 const getCart = computed((): Cart => state.cart);
 
 const getCartItemsCount = computed(
-    (): number => state.cart?.items?.length || 0
+    (): number => state.cart.items?.length || 0
 );
 
 const setCart = (cartData: Cart): void => {
@@ -24,10 +24,6 @@ const setCart = (cartData: Cart): void => {
 };
 
 const addToCart = (orderItemData: CartItem): void => {
-    if (!state.cart) {
-        state.cart = {};
-    }
-
     if (!state.cart.items || !state.cart.items.length) {
         state.cart.items = [];
     }

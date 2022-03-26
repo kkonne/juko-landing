@@ -3,15 +3,16 @@
         <div class="b2b-main container">
             <h1>Welcome {{ userName }}</h1>
 
-            <div class="my-8" v-if="cartItems">
+            <div class="my-8" v-if="cartItems.length">
                 <div class="text-2xl">CART 🛒</div>
 
                 <div v-for="(cartItem, i) in cartItems" :key="i">
                     {{ cartItem.amount }}
                 </div>
+                
+                <button @click="attemptOrder()" type="button">Order items</button>
             </div>
 
-            <button @click="attemptOrder()" type="button">Order items</button>
         </div>
     </div>
 </template>
@@ -28,10 +29,10 @@ export default {
         const { getUser } = authStore;
         const { getCart } = cartStore;
         let userName = ref(getUser.value?.name);
-        let cartItems = ref(null);
+        let cartItems = ref([]);
 
         const onInit = (): void => {
-            cartItems.value = getCart.value.items;
+            cartItems.value = getCart.value.items || [];
         };
 
         const attemptOrder = () => {

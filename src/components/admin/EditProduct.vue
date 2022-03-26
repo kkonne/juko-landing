@@ -98,11 +98,15 @@
                         id="stock-size"
                     >
                         <option :value="stock.size_id" selected>
-                            {{ !stock.size_id ? 'Choose size' : stock.size_id }}
+                            {{
+                                !stock.size_id
+                                    ? 'Choose size'
+                                    : productSizeOptions[stock.size_id].value
+                            }}
                         </option>
 
                         <option
-                            v-for="(size, i) in productSizes"
+                            v-for="(size, i) in productSizeOptions"
                             :key="i"
                             :value="size.id"
                         >
@@ -120,16 +124,16 @@
                             {{
                                 !stock.color_id
                                     ? 'Choose color'
-                                    : stock.color_id
+                                    : productColorOptions[stock.color_id].color_name
                             }}
                         </option>
 
                         <option
-                            v-for="(color, i) in productColors"
+                            v-for="(color, i) in productColorOptions"
                             :key="i"
                             :value="color.id"
                         >
-                            {{ color.value }}
+                            {{ color.color_name }}
                         </option>
                     </select>
 
@@ -228,26 +232,63 @@ export default {
         let productStockArray = ref([]);
         let productDataChanged = ref(false);
         let productStockChanged = ref(false);
-        let productSizes = [
-            { value: '41', id: 1 },
-            { id: 2, value: '42' },
-        ];
-        let productColors = [
-            { id: 1, name: 'Crna' },
-            { id: 2, name: 'Crvena' },
-        ];
+        let productSizeOptions = ref(null);
+        let productColorOptions = ref(null);
 
-        const API_URL = `products/${product.value.product_slug}/product-stocks`;
-        httpService
-            .get(API_URL)
-            .then((response) => {
-                productStockArray.value = response.data;
-                console.log('productStockArray.value');
-                console.log(productStockArray.value);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        const onInit = () => {
+            const API_URL = `products/${product.value.product_slug}/product-stocks`;
+            httpService
+                .get(API_URL)
+                .then((response) => {
+                    productStockArray.value = response.data;
+                    console.log('productStockArray.value');
+                    console.log(productStockArray.value);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+
+            getColorOptions();
+            getSizeOptions();
+        };
+
+        const getColorOptions = () => {
+            const API_URL = `colors`;
+            httpService
+                .get(API_URL)
+                .then((response) => {
+                    let colorOptionsObj = {};
+                    response.data.map((color) => {
+                        colorOptionsObj[color.id] = color;
+                    });
+                    productColorOptions.value = colorOptionsObj;
+
+                    console.log('product color options 🔴🔵🟡');
+                    console.log(productColorOptions.value);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
+
+        const getSizeOptions = () => {
+            const API_URL = `sizes`;
+            httpService
+                .get(API_URL)
+                .then((response) => {
+                    let sizeOptionsObj = {};
+                    response.data.map((size) => {
+                        sizeOptionsObj[size.id] = size;
+                    });
+                    productSizeOptions.value = sizeOptionsObj;
+
+                    console.log('product size options 👣');
+                    console.log(productSizeOptions.value);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
 
         let attemptProductEdit = (event) => {
             if (productDataChanged.value) {
@@ -370,6 +411,8 @@ export default {
             productDataChanged.value = true;
         };
 
+        onInit();
+
         return {
             parentCategoryId,
             editProductNameInputHr,
@@ -385,8 +428,8 @@ export default {
             productAddErrorMessage,
             productStockArray,
             productDataChanged,
-            productSizes,
-            productColors,
+            productSizeOptions,
+            productColorOptions,
 
             attemptProductEdit,
             handleOnFocusOut,
@@ -396,6 +439,8 @@ export default {
             addToStockList,
             onProductStockChanged,
             onProductDataChange,
+            getColorOptions,
+            getSizeOptions,
 
             httpService,
         };

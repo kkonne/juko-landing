@@ -49,7 +49,13 @@ export default {
             }
 
             onInit();
+            categoriesList.value = [];
+            productsList.value = [];
         });
+
+        const onInit = (): void => {
+            getCategoryData();
+        };
 
         const getCategoryData = (): void => {
             const currentRouteParam = routeRef.value.params.id;
@@ -68,9 +74,6 @@ export default {
             httpService
                 .get(API_URL)
                 .then((response) => {
-                    console.log('selected category data 🚀');
-                    console.log(response.data);
-
                     selectedCategory.value =
                         (!isTopLevel && response.data) || null;
 
@@ -99,9 +102,6 @@ export default {
                 .get(API_URL)
                 .then((response) => {
                     productsList.value = response.data.products;
-
-                    console.log('category products data 🔥');
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -110,10 +110,6 @@ export default {
 
         const handleCategorySelect = (category): void => {
             routerService.routerLinkTo(category.category_slug);
-        };
-
-        const onInit = (): void => {
-            getCategoryData();
         };
 
         onInit();

@@ -208,8 +208,6 @@ export default {
         };
 
         let loadCategoryProducts = (slug) => {
-            console.log('Loaded....');
-
             productsList.value = [];
             isEditProductToggled.value = false;
             isDeleteProductToggled.value = false;
@@ -218,10 +216,10 @@ export default {
             httpService
                 .get(API_URL)
                 .then((response) => {
-                    productsList.value = response.data[0].products;
+                    productsList.value = response.data.products;
 
                     console.log('products data 👖');
-                    console.log(response.data[0].products);
+                    console.log(productsList.value);
                 })
                 .catch((error) => {
                     console.log(error);

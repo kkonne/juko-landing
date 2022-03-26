@@ -48,6 +48,20 @@
 
                     <div class="header-end">
                         <div class="nav-item" v-if="isUserLoggedIn">
+                            <div @click="routerService.routerLinkTo('/b2b')">
+                                b2b
+                            </div>
+                            <div v-if="getCartItemsCount">
+                                <div
+                                    class="cart-items-badge animate-ping"
+                                ></div>
+                                <div class="cart-items-badge">
+                                    {{ getCartItemsCount }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nav-item" v-if="isUserLoggedIn">
                             <div @click="attemptLogout()" class="logout">
                                 Log out
                             </div>
@@ -138,6 +152,26 @@
                         >
                             Kontakt
                         </div>
+
+                        <div
+                            v-if="isUserLoggedIn"
+                            class="mobile-links-separator"
+                        ></div>
+
+                        <div
+                            v-if="isUserLoggedIn"
+                            @click="mobileLinkTo('/b2b')"
+                            class="mobile-nav-link"
+                        >
+                            B2b
+                        </div>
+                        <div
+                            v-if="isUserLoggedIn"
+                            @click="attemptLogout()"
+                            class="mobile-nav-link"
+                        >
+                            Log out
+                        </div>
                         <div @click="toggleColorTheme()" class="theme-switch">
                             <div v-if="isDarkMode == true">
                                 <img
@@ -180,11 +214,13 @@ import { ref } from 'vue';
 import userService from '@/services/user-service';
 import routerService from '@/services/router-service';
 import languageService from '@/services/language-service';
+import cartStore from '@/store/cart';
 
 export default {
     name: 'Navbar',
 
     setup() {
+        const { getCartItemsCount } = cartStore;
         let isDarkMode = ref(localStorage.theme == 'dark' ? true : false);
         let isMobileOpened = ref(false);
         let currentLang = ref(languageService.getCurrentLang());
@@ -243,6 +279,8 @@ export default {
         };
 
         return {
+            getCartItemsCount,
+
             isDarkMode,
             isMobileOpened,
             currentLang,
@@ -294,7 +332,12 @@ header {
         padding-left: env(safe-area-inset-left);
 
         .nav-item {
-            @apply py-2 px-4 cursor-pointer hover:text-red-400 dark:hover:text-red-800;
+            @apply relative py-2 px-4 cursor-pointer hover:text-red-400 dark:hover:text-red-800;
+
+            .cart-items-badge {
+                @apply absolute top-0 right-0 text-xs w-5 h-5 flex justify-center items-center
+                    rounded-full bg-red-700 text-gray-100;
+            }
         }
 
         .header-start {
@@ -332,8 +375,9 @@ header {
     .header-mobile {
         @apply w-full flex md:hidden flex-row items-center justify-between z-40
             py-2
-            bg-gray-800 text-gray-100
-            dark:bg-gray-200 dark:text-gray-800;
+            bg-gray-100 py-2 text-gray-800
+            dark:bg-gray-800 dark:text-gray-100;
+
         width: fill-available;
         width: -moz-available;
         width: -webkit-fill-available;
@@ -344,8 +388,8 @@ header {
             @apply mx-3 flex flex-col z-50;
 
             .line {
-                @apply w-6 h-0.5 bg-white m-1 rounded-sm 
-                dark:bg-black;
+                @apply w-6 h-0.5 bg-black m-1 rounded-sm 
+                dark:bg-white;
             }
 
             &.is-opened {
@@ -372,10 +416,14 @@ header {
             }
         }
 
+        .mobile-links-separator {
+            @apply h-px my-2 w-1/12 bg-gray-500 bg-opacity-25 mx-auto;
+        }
+
         .mobile-nav-links {
             @apply fixed w-full h-full top-0 left-0 flex flex-col justify-center
                 items-center duration-300
-                bg-gray-800 dark:bg-gray-200;
+                bg-gray-100 dark:bg-gray-800;
 
             clip-path: circle(0 at 92% 5%);
             -webkit-clip-path: circle(0 at 92% 5%);

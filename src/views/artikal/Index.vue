@@ -238,7 +238,7 @@ export default {
         };
 
         const getProductData = () => {
-            const currentRouteParam = routeRef.value.params.id;
+            const currentRouteParam = routeRef.value.params.productSlug;
             const API_URL = `products/${currentRouteParam}`;
             httpService
                 .get(API_URL)

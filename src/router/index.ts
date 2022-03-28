@@ -15,10 +15,10 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: '',
                 name: 'Products',
-                redirect: { name: 'Products category', params: { id: 'svi' } },
+                redirect: { name: 'Products category', params: { "categorySlug": 'svi' } },
             },
             {
-                path: ':id',
+                path: ':categorySlug',
                 name: 'Products category',
                 component: () => import('../views/proizvodi/Category.vue'),
             },
@@ -34,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/Artikal.vue'),
         children: [
             {
-                path: ':id',
+                path: ':productSlug',
                 name: 'Artikal',
                 component: () => import('../views/artikal/Index.vue'),
             },

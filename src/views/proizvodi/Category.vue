@@ -58,7 +58,7 @@ export default {
         };
 
         const getCategoryData = (): void => {
-            const currentRouteParam = routeRef.value.params.id;
+            const currentRouteParam = routeRef.value.params.categorySlug;
 
             let API_URL: string;
             let isTopLevel: boolean;
@@ -95,7 +95,7 @@ export default {
         };
 
         const getCategoryProducts = (): void => {
-            const currentRouteParam = routeRef.value.params.id;
+            const currentRouteParam = routeRef.value.params.categorySlug;
             const API_URL = `categories/${currentRouteParam}/products`;
 
             httpService

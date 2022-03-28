@@ -16,13 +16,14 @@ export default new (class {
 
     login = async (payload): Promise<any> => {
         const API_URL = 'login';
-        return httpService.post(API_URL, payload);
+        return await httpService.post(API_URL, payload);
     };
 
     logout = async (): Promise<any> => {
         sessionStorage.removeItem('user-auth-token');
+        sessionStorage.removeItem("userData");
         routerService.routerLinkTo('/');
         const API_URL = 'logout';
-        return httpService.post(API_URL);
+        return await httpService.post(API_URL);
     };
 })();

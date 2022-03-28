@@ -26,6 +26,13 @@
                     >
                         Content
                     </div>
+                    
+                    <div
+                        @click="routerService.routerLinkTo('/admin/orders')"
+                        class="admin-route-link"
+                    >
+                        Orders
+                    </div>
                 </div>
             </nav>
 

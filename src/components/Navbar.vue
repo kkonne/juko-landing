@@ -23,14 +23,6 @@
                         <div class="nav-item">
                             <div
                                 class="nav-link"
-                                @click="routerService.routerLinkTo('/partneri')"
-                            >
-                                Partneri
-                            </div>
-                        </div>
-                        <div class="nav-item">
-                            <div
-                                class="nav-link"
                                 @click="routerService.routerLinkTo('/o-nama')"
                             >
                                 O nama
@@ -133,12 +125,6 @@
                             class="mobile-nav-link"
                         >
                             Proizvodi
-                        </div>
-                        <div
-                            @click="mobileLinkTo('/partneri')"
-                            class="mobile-nav-link"
-                        >
-                            Partneri
                         </div>
                         <div
                             @click="mobileLinkTo('/o-nama')"

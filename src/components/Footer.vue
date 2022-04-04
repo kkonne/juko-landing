@@ -30,12 +30,6 @@
                                 Proizvodi
                             </div>
                             <div
-                                @click="routerService.routerLinkTo('/partneri')"
-                                class="footer-link"
-                            >
-                                Partneri
-                            </div>
-                            <div
                                 @click="routerService.routerLinkTo('/o-nama')"
                                 class="footer-link"
                             >

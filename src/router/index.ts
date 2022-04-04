@@ -25,11 +25,6 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
-        path: '/partneri',
-        name: 'Partneri',
-        component: () => import('../views/Partneri.vue'),
-    },
-    {
         path: '/artikal',
         component: () => import('../views/Artikal.vue'),
         children: [

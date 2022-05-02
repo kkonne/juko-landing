@@ -156,6 +156,7 @@
 
 <script lang="ts">
 import { ref } from 'vue';
+import authStore from '@/store/auth';
 import routerService from '@/services/router-service';
 import httpService from '@/services/http-service';
 import generalService from '@/services/general-service';
@@ -251,6 +252,7 @@ export default {
                     .post(API_URL, data)
                     .then((response) => {
                         userService.setUserToken(response.data.token);
+                        authStore.setUser(response.data.user);
                         selectedStep.value++;
                     })
                     .catch((error) => {

@@ -9,7 +9,7 @@
                 alt="Logo 1"
             />
             <img
-                src="https://68.cdn.ekm.net/ekmps/shops/tuffworkwear/images/kariban-padded-parka-jacket-kb677-[5]-72977-p.png?v=1"
+                src="https://www.promocadeaux.com/wp-content/uploads/2020/01/kariban.png"
                 alt="Logo 2"
             />
             <img
@@ -21,11 +21,15 @@
                 alt="Logo 4"
             />
             <img
-                src="https://bworkwear.ie/wp-content/uploads/2019/11/fbc4377b8d3770200c1bd281215c5a4f.png"
+                src="https://img2.storyblok.com/360x158/filters:quality(100)/f/68186/374x164/7a363b0390/kl-stack-logo-white.png"
                 alt="Logo 5"
             />
             <img
                 src="https://sportland.com/media/wysiwyg/brandsHistoryBlockLogo/helly-hansen.png"
+                alt="Logo 6"
+            />
+            <img
+                src="https://b2bit.ba/wp-content/uploads/2019/10/miviko-logo.png"
                 alt="Logo 6"
             />
         </div>
@@ -35,7 +39,7 @@
                 alt="Logo 1"
             />
             <img
-                src="https://68.cdn.ekm.net/ekmps/shops/tuffworkwear/images/kariban-padded-parka-jacket-kb677-[5]-72977-p.png?v=1"
+                src="https://www.promocadeaux.com/wp-content/uploads/2020/01/kariban.png"
                 alt="Logo 2"
             />
             <img
@@ -47,11 +51,15 @@
                 alt="Logo 4"
             />
             <img
-                src="https://bworkwear.ie/wp-content/uploads/2019/11/fbc4377b8d3770200c1bd281215c5a4f.png"
+                src="https://img2.storyblok.com/360x158/filters:quality(100)/f/68186/374x164/7a363b0390/kl-stack-logo-white.png"
                 alt="Logo 5"
             />
             <img
                 src="https://sportland.com/media/wysiwyg/brandsHistoryBlockLogo/helly-hansen.png"
+                alt="Logo 6"
+            />
+            <img
+                src="https://b2bit.ba/wp-content/uploads/2019/10/miviko-logo.png"
                 alt="Logo 6"
             />
         </div>
@@ -87,7 +95,8 @@ export default {
         animation: slide 40s linear infinite;
 
         img {
-            @apply h-12 mx-6;
+            @apply h-12 mx-4 md:mx-8 2xl:mx-16;
+            filter: brightness(10) grayscale(1);
         }
     }
 

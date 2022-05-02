@@ -60,8 +60,12 @@
                             </div>
                         </div>
                         <div class="social-media">
-                            <div class="other-link">Fb</div>
-                            <div class="other-link">Li</div>
+                            <div class="other-link">
+                                <Facebook />
+                            </div>
+                            <div class="other-link">
+                                <Linkedin />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,9 +82,15 @@
 
 <script lang="ts">
 import routerService from '@/services/router-service';
+import { Facebook, Linkedin } from 'mdue';
 
 export default {
     name: 'Footer',
+
+    components: {
+        Facebook,
+        Linkedin,
+    },
 
     setup() {
         return {
@@ -129,17 +139,21 @@ export default {
             md:flex-row dark:text-gray-400;
 
         .helpful-links {
-            @apply flex flex-col items-center my-2
+            @apply flex flex-col items-center
                 md:flex-row;
         }
 
         .social-media {
-            @apply flex flex-col items-center my-2
+            @apply flex flex-col items-center
                 md:flex-row;
+
+                .other-link {
+                    @apply text-4xl;
+                }
         }
 
         .other-link {
-            @apply mx-2 cursor-pointer
+            @apply m-2 cursor-pointer
                 hover:text-gray-900 dark:hover:text-gray-50;
         }
     }

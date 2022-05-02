@@ -10,31 +10,23 @@
                                 @click="routerService.routerLinkTo('/')"
                             />
                         </div>
-                        <div class="nav-item">
-                            <div
-                                class="nav-link"
-                                @click="
-                                    routerService.routerLinkTo('/proizvodi')
-                                "
-                            >
-                                Proizvodi
-                            </div>
+                        <div
+                            class="nav-item"
+                            @click="routerService.routerLinkTo('/proizvodi')"
+                        >
+                            Proizvodi
                         </div>
-                        <div class="nav-item">
-                            <div
-                                class="nav-link"
-                                @click="routerService.routerLinkTo('/o-nama')"
-                            >
-                                O nama
-                            </div>
+                        <div
+                            class="nav-item"
+                            @click="routerService.routerLinkTo('/o-nama')"
+                        >
+                            O nama
                         </div>
-                        <div class="nav-item">
-                            <div
-                                class="nav-link"
-                                @click="routerService.routerLinkTo('/kontakt')"
-                            >
-                                Kontakt
-                            </div>
+                        <div
+                            class="nav-item"
+                            @click="routerService.routerLinkTo('/kontakt')"
+                        >
+                            Kontakt
                         </div>
                     </div>
 
@@ -344,7 +336,7 @@ header {
         }
 
         .language-toggle {
-            @apply absolute m-2 z-10 right-10 top-14 opacity-0 hidden text-gray-100;
+            @apply absolute m-2 z-10 -right-4 top-12 opacity-0 hidden text-gray-100;
 
             &.is-opened {
                 @apply opacity-100 block;
@@ -360,7 +352,6 @@ header {
 
     .header-mobile {
         @apply w-full flex md:hidden flex-row items-center justify-between z-40
-            py-2
             bg-gray-100 py-2 text-gray-800
             dark:bg-gray-800 dark:text-gray-100;
 

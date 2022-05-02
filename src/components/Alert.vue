@@ -1,15 +1,17 @@
 <template>
-    <div class="alert"
-        :class="type === 'error' ? 'alert-error' : 'alert-success'">
+    <div
+        class="alert"
+        :class="type === 'error' ? 'alert-error' : 'alert-success'"
+    >
         <div class="alert-icon">
-            <img
+            <inline-svg
                 :src="
-                    type === 'error'
-                        ? 'https://images.fineartamerica.com/images/artworkimages/medium/2/cross-in-circle-in-red-tom-hill-transparent.png'
-                        : 'https://diamedicalusa.com/wp-content/uploads/2021/08/Icon-ionic-ios-checkmark-circle-outline.png'
+                    require(type === 'error'
+                        ? '@/assets/images/error-icon.svg'
+                        : '@/assets/images/success-icon.svg')
                 "
                 class="icon"
-            />
+            ></inline-svg>
         </div>
 
         <div class="alert-text">
@@ -33,12 +35,12 @@ export default {
 .alert {
     @apply w-full shadow-xl p-4 my-4 border-l-8 rounded-lg flex flex-col
         md:flex-row md:items-center;
-        
+
     &.alert-success {
         @apply bg-gray-100 text-gray-900 border-green-500
             dark:bg-gray-800 dark:text-gray-200 dark:border-green-400;
     }
-    
+
     &.alert-error {
         @apply bg-gray-100 text-gray-900 border-red-500
             dark:bg-gray-800 dark:text-gray-200 dark:border-red-500;
@@ -47,7 +49,7 @@ export default {
     .alert-icon {
         @apply h-8 w-8 mr-2 flex justify-center items-center;
 
-        .icon {
+        .icon svg {
             @apply w-full h-full p-1;
         }
     }

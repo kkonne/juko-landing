@@ -83,10 +83,10 @@
                             class="parent-category-select"
                             @blur="handleOnFocusOut($event)"
                         >
-                            <option value="" selected disabled>
+                            <option hidden disabled>
                                 Choose parent category
                             </option>
-                            <option value="-1">None</option>
+                            <option value="">None</option>
                             <option
                                 v-for="(category, i) in categoriesList"
                                 :key="i"

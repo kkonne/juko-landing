@@ -15,60 +15,51 @@
                 </button>
             </div>
 
-            <div v-if="userOrdersList.length" class="my-8">
-                <div class="text-2xl">ORDERS 🗒</div>
+            <div v-if="userOrdersList.length" class="order-list">
+                <div class="order-title">ORDERS 🗒</div>
 
                 <div
                     v-for="(userOrder, i) in userOrdersList"
                     :key="i"
-                    class="my-2"
+                    class="order-item"
                 >
-                    <span>Items: {{ userOrder.items.length }}</span>
-                    <br />
-                    <span class="text-xs">{{
+                    <span class="order-date">{{
                         new Date(userOrder.created_at).toLocaleDateString()
                     }}</span>
+                    <span class="order-items"
+                        >Items: {{ userOrder.items.length }}</span
+                    >
+                    <span class="order-price"
+                        >{{ userOrder.price }} BAM</span
+                    >
 
-                    <br />
                     <button
                         v-if="userOrder.approved === null"
                         @click="attemptOrderDecline(userOrder)"
                         type="button"
-                        class="mr-2 my-1 px-2 py-1 border"
+                        class="my-1 px-2 py-1 border ml-auto"
                     >
                         Cancel
                     </button>
 
                     <div
                         v-if="userOrder.approved === 0"
-                        class="
-                            h-2
-                            w-2
-                            bg-red-500 bg-opacity-70
-                            rounded-full
-                            m-2
-                        "
-                    ></div>
+                        class="text-red-500 ml-auto my-1 px-2 py-1"
+                    >
+                        Declined
+                    </div>
                     <div
                         v-if="userOrder.approved === 1"
-                        class="
-                            h-2
-                            w-2
-                            bg-green-500 bg-opacity-70
-                            rounded-full
-                            m-2
-                        "
-                    ></div>
+                        class="text-green-500 ml-auto my-1 px-2 py-1"
+                    >
+                        Approved
+                    </div>
                     <div
                         v-if="userOrder.approved === 2"
-                        class="
-                            h-2
-                            w-2
-                            bg-blue-500 bg-opacity-70
-                            rounded-full
-                            m-2
-                        "
-                    ></div>
+                        class="text-blue-500 ml-auto my-1 px-2 py-1"
+                    >
+                        Pending...
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,7 +110,22 @@ export default {
                     console.log('response.data');
                     console.log(response.data);
 
-                    userOrdersList.value = response.data;
+                    const { data } = response;
+                    const userOrdersMapped = data.map((order) => {
+                        return {
+                            ...order,
+                            price: order.items.reduce(
+                                (previousValue, currentValue) =>
+                                    previousValue + currentValue.price,
+                                0
+                            ),
+                        };
+                    });
+
+                    console.log('userOrdersMapped');
+                    console.log(userOrdersMapped);
+
+                    userOrdersList.value = userOrdersMapped;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -164,5 +170,34 @@ export default {
 <style lang="scss">
 .b2b-main {
     @apply my-10;
+
+    .order-list {
+        @apply my-8;
+
+        .order-title {
+            @apply text-2xl my-4;
+        }
+
+        .order-item {
+            @apply my-2 py-4 px-2 flex items-center gap-6;
+
+            &:nth-child(even) {
+                @apply bg-gray-500 bg-opacity-20;
+            }
+
+            &:hover {
+                @apply bg-gray-500 bg-opacity-50;
+            }
+
+            .order-date {
+                @apply text-sm text-gray-700
+                    dark:text-gray-300;
+            }
+
+            .order-price {
+                @apply font-bold;
+            }
+        }
+    }
 }
 </style>

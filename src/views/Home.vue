@@ -997,13 +997,61 @@
                 </div>
             </div>
 
-            <div class="products-promo container">
-                Browse our products and find your perfect work environment
-                protective solution
-                <button @click="routerService.routerLinkTo('/proizvodi')">
-                    Browse
+            <section class="products-example container">
+                <div
+                    @click="routerService.routerLinkTo('/proizvodi')"
+                    class="example"
+                >
+                    <div class="icon">
+                        <ShoeFormal></ShoeFormal>
+                    </div>
+                    <div class="text">200+ shoes</div>
+                </div>
+                <div
+                    @click="routerService.routerLinkTo('/proizvodi')"
+                    class="example"
+                >
+                    <div class="icon">
+                        <TshirtCrew></TshirtCrew>
+                    </div>
+                    <div class="text">800+ garments</div>
+                </div>
+                <div
+                    @click="routerService.routerLinkTo('/proizvodi')"
+                    class="example"
+                >
+                    <div class="icon">
+                        <Headphones></Headphones>
+                    </div>
+                    <div class="text">80+ head protections</div>
+                </div>
+            </section>
+
+            <section class="brand-promo container-fluid">
+                <button
+                    @click="routerService.routerLinkTo('/o-nama')"
+                    class="cool-button"
+                >
+                    <span class="content">
+                        <span class="text"> About us </span>
+                        <inline-svg
+                            :src="require('@/assets/images/triangles.svg')"
+                            class="button-arrows"
+                        ></inline-svg>
+                    </span>
                 </button>
-            </div>
+            </section>
+
+            <section class="contact-promo container">
+                <div class="text">You want to get in touch?</div>
+
+                <button
+                    @click="routerService.routerLinkTo('/kontakt')"
+                    class="cta-button"
+                >
+                    <span class="content"> Contact us </span>
+                </button>
+            </section>
         </div>
     </div>
 </template>
@@ -1012,9 +1060,16 @@
 import { onUnmounted, ref } from 'vue';
 import routerService from '@/services/router-service';
 import httpService from '@/services/http-service';
+import { ShoeFormal, TshirtCrew, Headphones } from 'mdue';
 
 export default {
     name: 'Home',
+
+    components: {
+        ShoeFormal,
+        TshirtCrew,
+        Headphones,
+    },
 
     setup() {
         let isScrolled = ref(false);
@@ -1136,8 +1191,94 @@ export default {
         }
     }
 
-    .products-promo {
-        @apply py-10;
+    .products-example {
+        @apply my-16 grid grid-cols-1 justify-items-center
+            md:grid-cols-3 md:gap-16;
+
+        .example {
+            @apply my-6 w-full text-center p-6 rounded-3xl
+                border-4 border-red-500 border-opacity-30 transform
+                md:my-0 cursor-pointer
+                hover:shadow-xl hover:-translate-y-2 hover:border-opacity-60;
+
+            .icon {
+                @apply w-16 h-16 mx-auto;
+
+                svg {
+                    @apply w-full h-full;
+                }
+            }
+
+            .text {
+                @apply text-lg;
+            }
+        }
+    }
+
+    .brand-promo {
+        @apply py-10 w-full h-64 bg-red-400 flex items-center justify-center;
+
+        background-image: url('https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size: cover;
+        background-attachment: fixed;
+        -webkit-background-attachment: fixed;
+
+        .cool-button {
+        @apply py-6 px-12 border 
+                border-opacity-50 text-white bg-gray-500 bg-opacity-30
+                text-xl uppercase tracking-widest font-bold transform-gpu
+                hover:border-opacity-100 hover:bg-opacity-10 hover:scale-110 hover:shadow-2xl;
+
+        width: fit-content;
+        backdrop-filter: blur(0.25rem);
+
+        .content {
+            @apply flex items-center justify-center;
+
+            .text {
+                word-wrap: none;
+            }
+
+            .button-arrows {
+                @apply h-8 w-8 ml-4 scale-100;
+
+                #red2 {
+                    @apply transform-gpu opacity-0 -translate-x-full;
+                }
+            }
+        }
+
+        &:hover {
+            .button-arrows {
+                #red1 {
+                    @apply transform-gpu translate-x-full opacity-0;
+                }
+
+                #orange1 {
+                    @apply transform-gpu translate-x-6 opacity-90;
+                }
+
+                #red2 {
+                    @apply transform-gpu translate-x-0 opacity-40;
+                }
+            }
+        }
+    }
+    }
+
+    .contact-promo {
+        @apply my-16 text-center flex flex-col;
+
+        .text {
+            @apply opacity-80 font-light text-lg;
+        }
+
+        .cta-button {
+            @apply my-6 mx-auto py-3 px-12 bg-gray-500 bg-opacity-20 rounded-lg font-bold
+                hover:bg-opacity-50 transform-gpu hover:-translate-y-2;
+        }
     }
 }
 </style>

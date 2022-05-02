@@ -205,6 +205,12 @@
                             type="number"
                             placeholder="Količina"
                         />
+                        
+                        <input
+                            v-model="stock.price"
+                            type="number"
+                            placeholder="Cijena"
+                        />
 
                         <div
                             @click.prevent="deleteItemFromStockList(i)"

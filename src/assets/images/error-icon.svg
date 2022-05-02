@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+    <path d="M25,50A25,25,0,1,1,50,25,25,25,0,0,1,25,50ZM25,2.54A22.46,22.46,0,1,0,47.46,25,22.49,22.49,0,0,0,25,2.54Z"
+        transform="translate(0 0)" style="fill:#dd374b" />
+    <rect x="23.48" y="6.97" width="3.05" height="36.05" transform="translate(-10.36 25) rotate(-45)"
+        style="fill:#dd374b" />
+    <rect x="6.97" y="23.48" width="36.05" height="3.05" transform="translate(-10.36 25) rotate(-45)"
+        style="fill:#dd374b" />
+</svg>

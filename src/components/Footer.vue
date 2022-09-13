@@ -22,21 +22,19 @@
                                 Naslovna
                             </div>
                             <div
-                                @click="
-                                    routerService.routerLinkTo('/proizvodi')
-                                "
+                                @click="routerService.routerLinkTo('/products')"
                                 class="footer-link"
                             >
                                 Proizvodi
                             </div>
                             <div
-                                @click="routerService.routerLinkTo('/o-nama')"
+                                @click="routerService.routerLinkTo('/about-us')"
                                 class="footer-link"
                             >
                                 O nama
                             </div>
                             <div
-                                @click="routerService.routerLinkTo('/kontakt')"
+                                @click="routerService.routerLinkTo('/contact')"
                                 class="footer-link"
                             >
                                 Kontakt
@@ -45,20 +43,6 @@
                     </div>
 
                     <div class="footer-other">
-                        <div class="helpful-links">
-                            <div
-                                @click="routerService.routerLinkTo('/b2b')"
-                                class="other-link"
-                            >
-                                B2B
-                            </div>
-                            <div
-                                @click="routerService.routerLinkTo('/admin')"
-                                class="other-link"
-                            >
-                                Admin
-                            </div>
-                        </div>
                         <div class="social-media">
                             <div class="other-link">
                                 <Facebook />
@@ -138,18 +122,13 @@ export default {
         @apply flex flex-col justify-between items-center py-4 text-sm text-gray-500
             md:flex-row dark:text-gray-400;
 
-        .helpful-links {
-            @apply flex flex-col items-center
-                md:flex-row;
-        }
-
         .social-media {
             @apply flex flex-col items-center
                 md:flex-row;
 
-                .other-link {
-                    @apply text-4xl;
-                }
+            .other-link {
+                @apply text-4xl;
+            }
         }
 
         .other-link {

@@ -1029,7 +1029,7 @@
 
             <section class="brand-promo container-fluid">
                 <button
-                    @click="routerService.routerLinkTo('/o-nama')"
+                    @click="routerService.routerLinkTo('/about-us')"
                     class="cool-button"
                 >
                     <span class="content">
@@ -1046,7 +1046,7 @@
                 <div class="text">You want to get in touch?</div>
 
                 <button
-                    @click="routerService.routerLinkTo('/kontakt')"
+                    @click="routerService.routerLinkTo('/contact')"
                     class="cta-button"
                 >
                     <span class="content"> Contact us </span>
@@ -1059,7 +1059,6 @@
 <script lang="ts">
 import { onUnmounted, ref } from 'vue';
 import routerService from '@/services/router-service';
-import httpService from '@/services/http-service';
 import { ShoeFormal, TshirtCrew, Headphones } from 'mdue';
 
 export default {
@@ -1099,7 +1098,6 @@ export default {
             onInit,
 
             routerService,
-            httpService,
         };
     },
 };
@@ -1226,46 +1224,46 @@ export default {
         -webkit-background-attachment: fixed;
 
         .cool-button {
-        @apply py-6 px-12 border 
+            @apply py-6 px-12 border 
                 border-opacity-50 text-white bg-gray-500 bg-opacity-30
                 text-xl uppercase tracking-widest font-bold transform-gpu
                 hover:border-opacity-100 hover:bg-opacity-10 hover:scale-110 hover:shadow-2xl;
 
-        width: fit-content;
-        backdrop-filter: blur(0.25rem);
+            width: fit-content;
+            backdrop-filter: blur(0.25rem);
 
-        .content {
-            @apply flex items-center justify-center;
+            .content {
+                @apply flex items-center justify-center;
 
-            .text {
-                word-wrap: none;
+                .text {
+                    word-wrap: none;
+                }
+
+                .button-arrows {
+                    @apply h-8 w-8 ml-4 scale-100;
+
+                    #red2 {
+                        @apply transform-gpu opacity-0 -translate-x-full;
+                    }
+                }
             }
 
-            .button-arrows {
-                @apply h-8 w-8 ml-4 scale-100;
+            &:hover {
+                .button-arrows {
+                    #red1 {
+                        @apply transform-gpu translate-x-full opacity-0;
+                    }
 
-                #red2 {
-                    @apply transform-gpu opacity-0 -translate-x-full;
+                    #orange1 {
+                        @apply transform-gpu translate-x-6 opacity-90;
+                    }
+
+                    #red2 {
+                        @apply transform-gpu translate-x-0 opacity-40;
+                    }
                 }
             }
         }
-
-        &:hover {
-            .button-arrows {
-                #red1 {
-                    @apply transform-gpu translate-x-full opacity-0;
-                }
-
-                #orange1 {
-                    @apply transform-gpu translate-x-6 opacity-90;
-                }
-
-                #red2 {
-                    @apply transform-gpu translate-x-0 opacity-40;
-                }
-            }
-        }
-    }
     }
 
     .contact-promo {

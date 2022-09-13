@@ -1,105 +1,26 @@
-import routerService from '@/services/router-service';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        name: 'Home',
+        name: 'home',
         component: Home,
     },
     {
-        path: '/proizvodi',
+        path: '/products',
+        name: 'products',
         component: () => import('../views/Products.vue'),
-        children: [
-            {
-                path: '',
-                name: 'Products',
-                redirect: { name: 'Products category', params: { "categorySlug": 'svi' } },
-            },
-            {
-                path: ':categorySlug',
-                name: 'Products category',
-                component: () => import('../views/proizvodi/Category.vue'),
-            },
-        ],
     },
     {
-        path: '/artikal',
-        component: () => import('../views/Artikal.vue'),
-        children: [
-            {
-                path: ':productSlug',
-                name: 'Artikal',
-                component: () => import('../views/artikal/Index.vue'),
-            },
-        ],
+        path: '/about-us',
+        name: 'aboutus',
+        component: () => import('../views/About.vue'),
     },
     {
-        path: '/o-nama',
-        name: 'O nama',
-        component: () => import('../views/Onama.vue'),
-    },
-    {
-        path: '/kontakt',
-        name: 'Kontakt',
-        component: () => import('../views/Kontakt.vue'),
-    },
-    {
-        path: '/admin',
-        component: () => import('../views/Admin.vue'),
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '',
-                name: 'Admin',
-                component: () => import('../views/admin/Index.vue'),
-            },
-            {
-                path: 'artikal',
-                name: 'Admin Artikal',
-                component: () => import('../views/admin/Artikal.vue'),
-            },
-            {
-                path: 'kategorija',
-                name: 'Admin Kategorija',
-                component: () => import('../views/admin/Kategorija.vue'),
-            },
-            {
-                path: 'content',
-                name: 'Admin Content',
-                component: () => import('../views/admin/Content.vue'),
-            },
-            {
-                path: 'orders',
-                name: 'Admin Orders',
-                component: () => import('../views/admin/Orders.vue'),
-            },
-        ],
-    },
-    {
-        path: '/b2b',
-        component: () => import('../views/B2b.vue'),
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '',
-                name: 'B2b',
-                component: () => import('../views/b2b/Index.vue'),
-            },
-        ],
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: () => import('../views/Login.vue'),
-        meta: { hideNavigation: true },
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: () => import('../views/Register.vue'),
-        meta: { hideNavigation: true },
+        path: '/contact',
+        name: 'contact',
+        component: () => import('../views/Contact.vue'),
     },
     {
         path: '/:catchAll(.*)',
@@ -133,21 +54,6 @@ const router = createRouter({
             return { top: 0 };
         }
     },
-});
-
-router.beforeEach((to, from, next) => {
-    if (!to.meta.requiresAuth) {
-        next();
-        return;
-    }
-
-    const isUserLoggedIn = !!sessionStorage.getItem('user-auth-token');
-    if (!isUserLoggedIn) {
-        routerService.setAfterLoginUrl(to.path);
-        next({ name: 'Login' });
-    } else {
-        next();
-    }
 });
 
 export default router;

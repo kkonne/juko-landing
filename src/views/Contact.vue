@@ -161,9 +161,9 @@ export default {
         };
 
         const handleInputState = (event) => {
-            console.log("event");
+            console.log('event');
             console.log(event);
-            
+
             if (!event.currentTarget.value.trim()) {
                 event.currentTarget.classList.add('faulty');
             } else {

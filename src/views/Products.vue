@@ -1,6 +1,6 @@
 <template>
     <div id="products">
-        <router-view></router-view>
+        Let's gooo PRODUCTS
     </div>
 </template>
 

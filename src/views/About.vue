@@ -77,17 +77,17 @@
                     <div class="icon"></div>
                 </div>
 
-				<Slideshow />
+                <Slideshow />
             </section>
 
-			<button class="cta-button">Let's work together</button>
+            <button class="cta-button">Let's work together</button>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import Slideshow from '@/components/Slideshow.vue';
-import { Star } from "mdue";
+import { Star } from 'mdue';
 
 export default {
     name: 'O nama',
@@ -108,7 +108,7 @@ export default {
 
         .section-title {
             @apply mx-4;
-            
+
             .line {
                 @apply h-1.5 w-8 bg-red-500 bg-opacity-75;
             }
@@ -155,8 +155,8 @@ export default {
         }
     }
 
-	.cta-button {
-		@apply mt-10 mb-20 py-2 px-6 border uppercase;
-	}
+    .cta-button {
+        @apply mt-10 mb-20 py-2 px-6 border uppercase;
+    }
 }
 </style>

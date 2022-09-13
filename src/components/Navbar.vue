@@ -12,68 +12,25 @@
                         </div>
                         <div
                             class="nav-item"
-                            @click="routerService.routerLinkTo('/proizvodi')"
+                            @click="routerService.routerLinkTo('/products')"
                         >
                             Proizvodi
                         </div>
                         <div
                             class="nav-item"
-                            @click="routerService.routerLinkTo('/o-nama')"
+                            @click="routerService.routerLinkTo('/about-us')"
                         >
                             O nama
                         </div>
                         <div
                             class="nav-item"
-                            @click="routerService.routerLinkTo('/kontakt')"
+                            @click="routerService.routerLinkTo('/Contact')"
                         >
                             Kontakt
                         </div>
                     </div>
 
                     <div class="header-end">
-                        <div class="nav-item" v-if="isUserLoggedIn">
-                            <div @click="routerService.routerLinkTo('/b2b')">
-                                b2b
-                            </div>
-                            <div v-if="getCartItemsCount">
-                                <div
-                                    class="cart-items-badge animate-ping"
-                                ></div>
-                                <div class="cart-items-badge">
-                                    {{ getCartItemsCount }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="nav-item" v-if="isUserLoggedIn">
-                            <div @click="attemptLogout()" class="logout">
-                                Log out
-                            </div>
-                        </div>
-
-                        <div class="nav-item">
-                            <div @click="toggleLanguageSelect()">
-                                {{ currentLang }}
-                            </div>
-                            <div
-                                class="language-toggle"
-                                :class="isLanguageSelectToggled && 'is-opened'"
-                            >
-                                <div
-                                    v-for="(language, i) in ['en', 'hr', 'de']"
-                                    :key="i"
-                                >
-                                    <div
-                                        v-if="language !== currentLang"
-                                        @click="selectLanguage(language)"
-                                        class="language-select"
-                                    >
-                                        {{ language }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="theme-switch" @click="toggleColorTheme()">
                             <div v-if="isDarkMode == true">
                                 <img
@@ -113,43 +70,24 @@
                             Naslovna
                         </div>
                         <div
-                            @click="mobileLinkTo('/proizvodi')"
+                            @click="mobileLinkTo('/products')"
                             class="mobile-nav-link"
                         >
                             Proizvodi
                         </div>
                         <div
-                            @click="mobileLinkTo('/o-nama')"
+                            @click="mobileLinkTo('/about-us')"
                             class="mobile-nav-link"
                         >
                             O nama
                         </div>
                         <div
-                            @click="mobileLinkTo('/kontakt')"
+                            @click="mobileLinkTo('/contact')"
                             class="mobile-nav-link"
                         >
                             Kontakt
                         </div>
 
-                        <div
-                            v-if="isUserLoggedIn"
-                            class="mobile-links-separator"
-                        ></div>
-
-                        <div
-                            v-if="isUserLoggedIn"
-                            @click="mobileLinkTo('/b2b')"
-                            class="mobile-nav-link"
-                        >
-                            B2b
-                        </div>
-                        <div
-                            v-if="isUserLoggedIn"
-                            @click="attemptLogout()"
-                            class="mobile-nav-link"
-                        >
-                            Log out
-                        </div>
                         <div @click="toggleColorTheme()" class="theme-switch">
                             <div v-if="isDarkMode == true">
                                 <img
@@ -158,26 +96,6 @@
                             </div>
                             <div v-else>
                                 <img src="@/assets/images/moon-icon.svg" />
-                            </div>
-                        </div>
-                        <div class="language-mobile">
-                            <div
-                                v-for="(language, i) in ['en', 'hr', 'de']"
-                                :key="i"
-                            >
-                                <div
-                                    @click="
-                                        language !== currentLang &&
-                                            selectLanguage(language)
-                                    "
-                                    class="language-select"
-                                    :class="
-                                        language === currentLang &&
-                                        'language-select-active'
-                                    "
-                                >
-                                    {{ language.toUpperCase() }}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,21 +107,14 @@
 
 <script lang="ts">
 import { ref } from 'vue';
-import userService from '@/services/user-service';
 import routerService from '@/services/router-service';
-import languageService from '@/services/language-service';
-import cartStore from '@/store/cart';
 
 export default {
     name: 'Navbar',
 
     setup() {
-        const { getCartItemsCount } = cartStore;
         let isDarkMode = ref(localStorage.theme == 'dark' ? true : false);
         let isMobileOpened = ref(false);
-        let currentLang = ref(languageService.getCurrentLang());
-        let isLanguageSelectToggled = ref(false);
-        let isUserLoggedIn = ref(userService.isUserLoggedIn());
 
         let toggleMobileMenu = () => {
             isMobileOpened.value = !isMobileOpened.value;
@@ -212,15 +123,6 @@ export default {
         let mobileLinkTo = (route) => {
             isMobileOpened.value = false;
             routerService.routerLinkTo(route);
-        };
-
-        let attemptLogout = () => {
-            try {
-                userService.logout();
-                isUserLoggedIn.value = false;
-            } catch (error) {
-                console.log(error);
-            }
         };
 
         let toggleColorTheme = () => {
@@ -235,44 +137,14 @@ export default {
             }
         };
 
-        let toggleLanguageSelect = (order?: 'off' | 'on'): void => {
-            if (order === 'off') {
-                isLanguageSelectToggled.value = false;
-                return;
-            }
-
-            if (order === 'on') {
-                isLanguageSelectToggled.value = true;
-                return;
-            }
-
-            isLanguageSelectToggled.value = !isLanguageSelectToggled.value;
-        };
-
-        let selectLanguage = (langCode) => {
-            languageService.setCurrentLang(langCode);
-            currentLang.value = langCode;
-            toggleLanguageSelect('off');
-            location.reload(); // krema 💦
-        };
-
         return {
-            getCartItemsCount,
-
             isDarkMode,
             isMobileOpened,
-            currentLang,
-            isLanguageSelectToggled,
-            isUserLoggedIn,
 
             toggleMobileMenu,
             mobileLinkTo,
             toggleColorTheme,
-            toggleLanguageSelect,
-            selectLanguage,
-            attemptLogout,
 
-            userService,
             routerService,
         };
     },
@@ -332,20 +204,6 @@ header {
 
             &:hover {
                 @apply rounded-xl;
-            }
-        }
-
-        .language-toggle {
-            @apply absolute m-2 z-10 -right-4 top-12 opacity-0 hidden text-gray-100;
-
-            &.is-opened {
-                @apply opacity-100 block;
-            }
-
-            .language-select {
-                @apply py-2 px-6 cursor-pointer bg-gray-400 bg-opacity-50
-                    hover:text-red-400 dark:hover:text-red-800
-                    hover:bg-opacity-30 dark:hover:bg-opacity-80;
             }
         }
     }
@@ -419,18 +277,6 @@ header {
             .theme-switch {
                 @apply border-solid border-gray-100 border-2 m-5 bg-gray-700
                     dark:border-gray-800 dark:bg-gray-300;
-            }
-
-            .language-mobile {
-                @apply flex justify-center text-lg gap-6;
-
-                .language-select {
-                    @apply text-gray-400 dark:text-gray-600 mt-4;
-                }
-
-                .language-select-active {
-                    @apply text-gray-900 dark:text-gray-100;
-                }
             }
         }
     }

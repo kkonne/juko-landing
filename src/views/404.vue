@@ -4,7 +4,9 @@
             <div class="error-content">
                 <div class="error-heading"><code>404</code></div>
                 <h3><code>&lt; An error occurred /&gt;</code></h3>
-                <p class="my-10">The thing you've been looking for is moved or deleted.</p>
+                <p class="my-10">
+                    The thing you've been looking for is moved or deleted.
+                </p>
                 <span @click="routerService.routerLinkTo('/')" class="link">
                     &lt; Back to homepage
                 </span>

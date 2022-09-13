@@ -1,6 +1,6 @@
 # Juko website
 
-### Juko website including landing page, auth, admin panel for CMS and B2B orders.
+### Juko website focused on attracting clients. Main features: landing page, email service and dark mode.
 ### Made using Vue 3 and Tailwind.
 
 ## Project setup

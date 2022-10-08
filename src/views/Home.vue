@@ -3,13 +3,15 @@
         <div class="home-main">
             <div class="landing">
                 <div class="landing-text">
-                    <h1
-                        class="title"
-                        v-html="homePageAssets?.text['landing-title'] || 'Juko'"
-                    ></h1>
-                    <h4 class="subheading">
-                        Delivering high quality workwear equipment since 2014.
-                    </h4>
+                    <h1 class="title">Juko</h1>
+                    <h4 class="subheading">Radna oprema za sve uvjete</h4>
+                    <button
+                        type="button"
+                        class="btn-cta"
+                        @click="routerService.routerLinkTo('/about-us')"
+                    >
+                        O nama
+                    </button>
                 </div>
                 <div class="landing-img">
                     <svg
@@ -17,13 +19,6 @@
                         viewBox="0 0 317.79 468.3"
                     >
                         <g id="suit">
-                            <rect
-                                x="114.59"
-                                y="117.27"
-                                width="96.38"
-                                height="235.79"
-                                rx="8.71"
-                            />
                             <rect
                                 x="109.59"
                                 y="112.27"
@@ -162,14 +157,6 @@
                         </g>
                         <g id="boots">
                             <rect
-                                x="114.46"
-                                y="371.92"
-                                width="96.38"
-                                height="96.38"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
-                            <rect
                                 x="109.46"
                                 y="366.92"
                                 width="96.38"
@@ -274,14 +261,6 @@
                         </g>
                         <g id="gloves">
                             <rect
-                                x="229.89"
-                                y="297.17"
-                                width="87.9"
-                                height="95.87"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
-                            <rect
                                 x="224.89"
                                 y="292.17"
                                 width="87.9"
@@ -349,14 +328,6 @@
                         </g>
                         <g id="eyewear">
                             <rect
-                                x="229.89"
-                                y="203.45"
-                                width="87.9"
-                                height="74.81"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
-                            <rect
                                 x="224.89"
                                 y="198.45"
                                 width="87.9"
@@ -404,14 +375,6 @@
                             </g>
                         </g>
                         <g id="mask">
-                            <rect
-                                x="5.19"
-                                y="148.71"
-                                width="90.42"
-                                height="56.91"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
                             <rect
                                 x="0.19"
                                 y="143.71"
@@ -464,14 +427,6 @@
                             </g>
                         </g>
                         <g id="reflective">
-                            <rect
-                                x="5.19"
-                                y="220.83"
-                                width="90.42"
-                                height="105.36"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
                             <rect
                                 x="0.19"
                                 y="215.83"
@@ -531,14 +486,6 @@
                             </g>
                         </g>
                         <g id="gasmask">
-                            <rect
-                                x="5.19"
-                                y="345.11"
-                                width="90.42"
-                                height="68.78"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
                             <rect
                                 x="0.19"
                                 y="340.11"
@@ -731,14 +678,6 @@
                         </g>
                         <g id="visor">
                             <rect
-                                x="229.89"
-                                y="89.5"
-                                width="87.9"
-                                height="95.77"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
-                            <rect
                                 x="224.89"
                                 y="84.5"
                                 width="87.9"
@@ -808,14 +747,6 @@
                             </g>
                         </g>
                         <g id="headphones">
-                            <rect
-                                x="114.16"
-                                y="5"
-                                width="97.96"
-                                height="93.88"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
                             <rect
                                 x="109.16"
                                 width="97.96"
@@ -918,14 +849,6 @@
                         </g>
                         <g id="hardhat">
                             <rect
-                                x="5"
-                                y="63.09"
-                                width="90.8"
-                                height="66.7"
-                                rx="8.71"
-                                fill="#b5b5b580"
-                            />
-                            <rect
                                 y="58.09"
                                 width="90.8"
                                 height="66.7"
@@ -988,68 +911,78 @@
                         </g>
                     </svg>
                 </div>
-
-                <div
-                    :class="isScrolled && 'hide-scroll'"
-                    class="scroll-indicator"
-                >
-                    <div class="scroll-icon">v</div>
-                </div>
             </div>
+
+            <section class="banner-separator">
+                <img src="https://i.ibb.co/vL2b9wD/IMG-5661.jpg" />
+            </section>
 
             <section class="products-example container">
                 <div
-                    @click="routerService.routerLinkTo('/proizvodi')"
+                    @click="routerService.routerLinkTo('/products')"
                     class="example"
                 >
                     <div class="icon">
                         <ShoeFormal></ShoeFormal>
                     </div>
-                    <div class="text">200+ shoes</div>
+                    <div class="text">200+ vrsta obuće</div>
                 </div>
                 <div
-                    @click="routerService.routerLinkTo('/proizvodi')"
+                    @click="routerService.routerLinkTo('/products')"
                     class="example"
                 >
                     <div class="icon">
                         <TshirtCrew></TshirtCrew>
                     </div>
-                    <div class="text">800+ garments</div>
+                    <div class="text">800+ gornjih dijelova</div>
                 </div>
                 <div
-                    @click="routerService.routerLinkTo('/proizvodi')"
+                    @click="routerService.routerLinkTo('/products')"
                     class="example"
                 >
                     <div class="icon">
                         <Headphones></Headphones>
                     </div>
-                    <div class="text">80+ head protections</div>
+                    <div class="text">80+ različitih zaštita glave</div>
                 </div>
             </section>
 
+            <section class="container">
+                <Slideshow :images="images" />
+            </section>
+
             <section class="brand-promo container-fluid">
-                <button
-                    @click="routerService.routerLinkTo('/about-us')"
-                    class="cool-button"
-                >
-                    <span class="content">
-                        <span class="text"> About us </span>
-                        <inline-svg
-                            :src="require('@/assets/images/triangles.svg')"
-                            class="button-arrows"
-                        ></inline-svg>
-                    </span>
-                </button>
+                <div class="nav-subsection one">
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Ea necessitatibus aliquam id, cum nobis illo
+                        consequuntur esse quas, nemo tempore quam blanditiis?
+                    </p>
+                    <router-link to="/products" class="nav-link"
+                        >Proizvodi</router-link
+                    >
+                </div>
+                <div class="nav-subsection two">
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Ea necessitatibus aliquam id, cum nobis illo
+                        consequuntur esse quas.
+                    </p>
+                    <router-link to="/contact" class="nav-link"
+                        >Kontakt</router-link
+                    >
+                </div>
             </section>
 
             <section class="contact-promo container">
-                <div class="text">You want to get in touch?</div>
+                <div class="text">Želite saznati više?</div>
 
                 <button
                     @click="routerService.routerLinkTo('/contact')"
                     class="cta-button"
+                    v-motion-slide-visible-once-bottom
                 >
-                    <span class="content"> Contact us </span>
+                    <span class="content"> Kontaktirajte nas </span>
                 </button>
             </section>
         </div>
@@ -1057,9 +990,9 @@
 </template>
 
 <script lang="ts">
-import { onUnmounted, ref } from 'vue';
 import routerService from '@/services/router-service';
 import { ShoeFormal, TshirtCrew, Headphones } from 'mdue';
+import Slideshow from '@/components/Slideshow.vue';
 
 export default {
     name: 'Home',
@@ -1068,34 +1001,59 @@ export default {
         ShoeFormal,
         TshirtCrew,
         Headphones,
+        Slideshow,
     },
 
     setup() {
-        let isScrolled = ref(false);
-        let homePageAssets: any = ref();
+        // const onInit = () => {};
 
-        let handleScrollEvent = () => {
-            setTimeout(() => {
-                isScrolled.value = true;
-            }, 100);
-        };
-
-        const onInit = () => {
-            window.addEventListener('scroll', handleScrollEvent);
-        };
-
-        onUnmounted(() => {
-            window.removeEventListener('scroll', handleScrollEvent);
-        });
-
-        onInit();
+        // onInit();
+        const images = [
+            {
+                path: 'https://i.ibb.co/5kx9Pv8/IMG-5700.png',
+                alt: 'Camo workwear safety pants',
+                keywords: 'camo workwear pants work safety',
+            },
+            {
+                path: 'https://i.ibb.co/crmNvWt/IMG-5702.png',
+                alt: 'Red workwear safety waterproof jacket',
+                keywords: 'red workwear safety waterproof jacket',
+            },
+            {
+                path: 'https://i.ibb.co/vZdj9kd/IMG-5734.png',
+                alt: 'Red workwear safety gloves',
+                keywords: 'red workwear safety gloves',
+            },
+            {
+                path: 'https://i.ibb.co/QX61G7Y/IMG-5701.png',
+                alt: 'Dark grey workwear safety pants',
+                keywords: 'dark black grey gray workwear pants work safety',
+            },
+            {
+                path: 'https://i.ibb.co/L8Wkby0/IMG-5716.png',
+                alt: 'Dark grey workwear safety boots with protection',
+                keywords: 'Dark grey workwear safety boots with protection',
+            },
+            {
+                path: 'https://i.ibb.co/qM7ppfP/IMG-5714.png',
+                alt: 'Dark blue workwear construction suit with pockets',
+                keywords: 'dark blue workwear construction suit with pockets',
+            },
+            {
+                path: 'https://i.ibb.co/DG6SCHm/IMG-5715.png',
+                alt: 'Black waterproof safety knee high boots',
+                keywords: 'black waterproof safety knee high boots',
+            },
+            {
+                path: 'https://i.ibb.co/D55WqKQ/IMG-5708.png',
+                alt: 'High visibility yellow safety suit',
+                keywords: 'high visibility yellow safety suit',
+            },
+        ];
 
         return {
-            isScrolled,
-            homePageAssets,
-
-            handleScrollEvent,
-            onInit,
+            // onInit,
+            images,
 
             routerService,
         };
@@ -1106,31 +1064,44 @@ export default {
 <style lang="scss">
 .home-main {
     .landing {
-        @apply w-full relative grid grid-cols-1 content-center items-center text-white
+        @apply w-full relative grid grid-cols-1 content-center items-center
             bg-fixed bg-cover bg-center bg-no-repeat
             md:grid-cols-2;
         min-height: calc(100vh - 64px - env(safe-area-inset-bottom));
         background-image: url('https://images.pexels.com/photos/73833/weld-hot-soldering-radio-welder-73833.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
-        background-attachment: fixed;
-        -webkit-background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        &::after {
+            @apply absolute w-full top-0 h-full left-0 bg-gradient-to-t from-gray-200 dark:from-gray-900;
+            content: '';
+        }
 
         .landing-text {
-            @apply text-center m-4 self-center
+            @apply text-center m-4 self-center z-10
                 md:text-right;
-            text-shadow: 0 0 0.3rem #000;
 
             .title {
-                @apply uppercase font-bold;
+                @apply uppercase font-extrabold text-4xl md:text-9xl;
             }
 
             .subheading {
                 @apply mx-auto md:ml-auto md:mr-0;
                 max-width: 40ch;
             }
+
+            .btn-cta {
+                @apply px-8 py-2 mt-4 rounded-none border-red-700 border-2;
+
+                &:hover {
+                    @apply rounded-xl;
+                }
+            }
         }
 
         .landing-img {
-            @apply justify-self-center m-4
+            @apply justify-self-center m-4 z-10
                 md:justify-self-start;
 
             svg {
@@ -1138,7 +1109,7 @@ export default {
                 animation: fade-up 1s;
 
                 g > rect {
-                    fill: #ffffff30;
+                    fill: #88888880;
                 }
 
                 #suit_icon,
@@ -1153,7 +1124,7 @@ export default {
                 #reflective_icon {
                     @apply opacity-0;
                     animation: drop-in 1s ease forwards;
-                    animation-delay: calc((var(--order) * 200ms) + 500ms);
+                    animation-delay: calc((var(--order) * 150ms) + 900ms);
                 }
 
                 @keyframes fade-up {
@@ -1175,17 +1146,13 @@ export default {
                 }
             }
         }
+    }
 
-        .scroll-indicator {
-            @apply absolute w-full bottom-4;
+    .banner-separator {
+        @apply w-full h-32 md:h-64 overflow-hidden flex justify-center items-center;
 
-            &.hide-scroll {
-                @apply transition duration-500 opacity-0 transform -translate-y-16;
-            }
-
-            .scroll-icon {
-                @apply text-center animate-bounce text-gray-800 font-bold;
-            }
+        img {
+            @apply w-full;
         }
     }
 
@@ -1194,10 +1161,10 @@ export default {
             md:grid-cols-3 md:gap-16;
 
         .example {
-            @apply my-6 w-full text-center p-6 rounded-3xl
-                border-4 border-red-500 border-opacity-30 transform
+            @apply my-6 w-full text-center p-6 rounded-lg
+                border-4 border-red-500 border-opacity-60 transform
                 md:my-0 cursor-pointer
-                hover:shadow-xl hover:-translate-y-2 hover:border-opacity-60;
+                hover:shadow-xl hover:-translate-y-2 hover:border-opacity-90;
 
             .icon {
                 @apply w-16 h-16 mx-auto;
@@ -1214,54 +1181,33 @@ export default {
     }
 
     .brand-promo {
-        @apply py-10 w-full h-64 bg-red-400 flex items-center justify-center;
+        @apply grid grid-cols-1 md:grid-cols-2;
 
-        background-image: url('https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-        background-repeat: no-repeat;
-        background-position: top;
-        background-size: cover;
-        background-attachment: fixed;
-        -webkit-background-attachment: fixed;
+        .nav-subsection {
+            @apply p-8 w-full flex flex-col justify-end items-start h-96 text-white relative;
 
-        .cool-button {
-            @apply py-6 px-12 border 
-                border-opacity-50 text-white bg-gray-500 bg-opacity-30
-                text-xl uppercase tracking-widest font-bold transform-gpu
-                hover:border-opacity-100 hover:bg-opacity-10 hover:scale-110 hover:shadow-2xl;
+            background-position: center;
+            background-size: cover;
 
-            width: fit-content;
-            backdrop-filter: blur(0.25rem);
-
-            .content {
-                @apply flex items-center justify-center;
-
-                .text {
-                    word-wrap: none;
-                }
-
-                .button-arrows {
-                    @apply h-8 w-8 ml-4 scale-100;
-
-                    #red2 {
-                        @apply transform-gpu opacity-0 -translate-x-full;
-                    }
-                }
+            &::after {
+                @apply absolute w-full h-full top-0 left-0 bg-gradient-to-t from-black;
+                content: '';
             }
 
-            &:hover {
-                .button-arrows {
-                    #red1 {
-                        @apply transform-gpu translate-x-full opacity-0;
-                    }
+            > * {
+                @apply z-10;
+            }
 
-                    #orange1 {
-                        @apply transform-gpu translate-x-6 opacity-90;
-                    }
+            .nav-link {
+                @apply border-white border px-4 py-1 mt-4 hover:underline;
+            }
 
-                    #red2 {
-                        @apply transform-gpu translate-x-0 opacity-40;
-                    }
-                }
+            &.one {
+                background-image: url('https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            }
+
+            &.two {
+                background-image: url('https://images.pexels.com/photos/585419/pexels-photo-585419.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
             }
         }
     }

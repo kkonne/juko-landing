@@ -33,9 +33,7 @@
                     <div class="header-end">
                         <div class="theme-switch" @click="toggleColorTheme()">
                             <div v-if="isDarkMode == true">
-                                <img
-                                    src="https://cdn-icons-png.flaticon.com/512/66/66275.png"
-                                />
+                                <img src="@/assets/images/light-icon.png" />
                             </div>
                             <div v-else>
                                 <img src="@/assets/images/moon-icon.svg" />
@@ -175,9 +173,8 @@ header {
         @apply relative w-full hidden md:flex flex-row items-center justify-between text-lg
             lowercase bg-gray-100 py-2 text-gray-800
             dark:bg-gray-800 dark:text-gray-100;
-        width: -moz-available;
-        width: -webkit-fill-available;
-        width: fill-available;
+        width: -webkit-stretch;
+        width: stretch;
         padding-right: env(safe-area-inset-right);
         padding-left: env(safe-area-inset-left);
 
@@ -213,9 +210,9 @@ header {
             bg-gray-100 py-2 text-gray-800
             dark:bg-gray-800 dark:text-gray-100;
 
-        width: fill-available;
+        width: stretch;
         width: -moz-available;
-        width: -webkit-fill-available;
+        width: -webkit-stretch;
         padding-right: env(safe-area-inset-right);
         padding-left: env(safe-area-inset-left);
 

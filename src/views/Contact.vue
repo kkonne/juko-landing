@@ -6,14 +6,14 @@
                     class="contact-form-content container"
                     @submit.prevent="attemptContactFormSubmit()"
                 >
-                    <h1>Contact us</h1>
+                    <h1>Kontaktirajte nas</h1>
 
-                    <p>What may we help you with today?</p>
+                    <p>Kako Vam možemo pomoći?</p>
 
                     <input
                         v-model="customerNameInput"
                         type="text"
-                        placeholder="Name"
+                        placeholder="Ime"
                         @input="handleInputState($event)"
                         @blur="handleInputState($event)"
                         :class="!!customerNameInput.trim() && 'has-value'"
@@ -31,7 +31,7 @@
                     <input
                         v-model="customerSubjectInput"
                         type="text"
-                        placeholder="Subject"
+                        placeholder="Predmet"
                         @input="handleInputState($event)"
                         @blur="handleInputState($event)"
                         :class="!!customerSubjectInput.trim() && 'has-value'"
@@ -40,7 +40,7 @@
                     <textarea
                         v-model="customerMessageInput"
                         type="text"
-                        placeholder="Your question..."
+                        placeholder="Vaše pitanje..."
                         rows="4"
                         @input="handleInputState($event)"
                         @blur="handleInputState($event)"
@@ -68,12 +68,15 @@
             </div>
 
             <div class="contact-alternatives container">
-                <div class="phone alternative-card">
+                <div
+                    class="phone alternative-card"
+                    v-motion-slide-visible-once-bottom
+                >
                     <inline-svg
                         :src="require('@/assets/images/contact/phone-icon.svg')"
                         class="icon"
                     ></inline-svg>
-                    <h2 class="title">Reach out</h2>
+                    <h2 class="title">Kontaktirajte nas</h2>
                     <div class="card-text">
                         Lorem ipsum, dolor sit amet consectetur adipisicing
                         elit. Amet, eius.
@@ -81,20 +84,36 @@
                     <div class="featured-text">+387 63 123-456</div>
                 </div>
 
-                <div class="address alternative-card">
+                <div
+                    class="address alternative-card"
+                    v-motion-slide-visible-once-bottom
+                >
                     <inline-svg
                         :src="
                             require('@/assets/images/contact/location-icon.svg')
                         "
                         class="icon"
                     ></inline-svg>
-                    <h2 class="title">Visit us</h2>
+                    <h2 class="title">Posjetite nas</h2>
                     <div class="card-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Quod, praesentium!
                     </div>
-                    <div class="featured-text">Kralja Tvrtka 11, Posušje</div>
+                    <div class="featured-text">
+                        Ante Brune Bušića 35, Posušje
+                    </div>
                 </div>
+            </div>
+
+            <div class="location container">
+                <h3 class="label">Gdje se nalazimo:</h3>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2895.712724313696!2d17.32552961548316!3d43.46659437249524!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134b2783ec220737%3A0x63b0dd9a8d0de0b4!2sJUKO%20d.o.o.!5e0!3m2!1sen!2sba!4v1664120328367!5m2!1sen!2sba"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    class="map"
+                ></iframe>
             </div>
         </div>
     </div>
@@ -161,9 +180,6 @@ export default {
         };
 
         const handleInputState = (event) => {
-            console.log('event');
-            console.log(event);
-
             if (!event.currentTarget.value.trim()) {
                 event.currentTarget.classList.add('faulty');
             } else {
@@ -191,7 +207,7 @@ export default {
 <style lang="scss" scoped>
 .contact-main {
     .contact-form {
-        @apply text-gray-700 flex items-center justify-center;
+        @apply text-gray-700 flex items-center justify-center relative;
 
         min-height: calc(100vh - 64px - env(safe-area-inset-bottom));
         background-image: url('https://images.pexels.com/photos/821754/pexels-photo-821754.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260');
@@ -199,8 +215,13 @@ export default {
         background-repeat: no-repeat;
         background-position: center;
 
+        &::after {
+            @apply absolute w-full top-0 h-full left-0 bg-gradient-to-t from-gray-200 dark:from-gray-900;
+            content: '';
+        }
+
         .contact-form-content {
-            @apply text-center;
+            @apply text-center z-10;
 
             h1 {
                 @apply font-bold my-4;
@@ -238,7 +259,8 @@ export default {
                 @apply w-full p-2 my-2 bg-gray-900 rounded-lg text-gray-300 outline-none
                     transform md:w-1/2 2xl:w-1/3
                     focus:shadow-lg focus:text-gray-100
-                    hover:-translate-y-1 focus:-translate-y-1;
+                    hover:-translate-y-2 focus:-translate-y-2
+                    hover:bg-gray-800 focus:bg-gray-800;
             }
         }
     }
@@ -273,6 +295,18 @@ export default {
             .featured-text {
                 @apply text-lg tracking-wider my-3 uppercase;
             }
+        }
+    }
+
+    .location {
+        @apply my-8;
+
+        .label {
+            @apply text-center mb-4;
+        }
+
+        .map {
+            @apply w-full h-48 md:h-96 border border-gray-900;
         }
     }
 }

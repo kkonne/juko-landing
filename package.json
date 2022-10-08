@@ -11,6 +11,7 @@
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "@vueuse/components": "^7.5.3",
     "@vueuse/core": "^7.5.3",
+    "@vueuse/motion": "^2.0.0-beta.12",
     "autoprefixer": "^9",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",

@@ -119,12 +119,11 @@ export default {
     }
 
     .footer-other {
-        @apply flex flex-col justify-between items-center py-4 text-sm text-gray-500
+        @apply flex flex-col justify-center items-center py-4 text-sm text-gray-500
             md:flex-row dark:text-gray-400;
 
         .social-media {
-            @apply flex flex-col items-center
-                md:flex-row;
+            @apply flex flex-row items-center;
 
             .other-link {
                 @apply text-4xl;

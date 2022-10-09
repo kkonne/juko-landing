@@ -954,9 +954,11 @@
             <section class="brand-promo container-fluid">
                 <div class="nav-subsection one">
                     <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Ea necessitatibus aliquam id, cum nobis illo
-                        consequuntur esse quas, nemo tempore quam blanditiis?
+                        Tu smo da Vas zaštitimo od najekstremnijih uvjeta.
+                        <br />
+                        Naša bogata ponuda omogućava ispravnu zaštitu na svim
+                        pozicijama, od uslužnih do poslova na izloženim
+                        elementima.
                     </p>
                     <router-link to="/products" class="nav-link"
                         >Proizvodi</router-link
@@ -964,12 +966,14 @@
                 </div>
                 <div class="nav-subsection two">
                     <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Ea necessitatibus aliquam id, cum nobis illo
-                        consequuntur esse quas.
+                        Zaštitite sebe i svoje radnike sa certificiranom
+                        zaštitnom opremom. Tu smo da na tržište dovedemo
+                        najsuvremenije tehnologije zaštitne opreme.
+                        <br />
+                        Čuvajte sebe. Čuvajte svoje zdravlje.
                     </p>
-                    <router-link to="/contact" class="nav-link"
-                        >Kontakt</router-link
+                    <router-link to="/about-us" class="nav-link"
+                        >O nama</router-link
                     >
                 </div>
             </section>
@@ -1092,7 +1096,8 @@ export default {
             }
 
             .btn-cta {
-                @apply px-8 py-2 mt-4 rounded-none border-red-700 border-2;
+                @apply px-8 py-2 mt-4 rounded-none border-red-700 border-2
+                    hover:bg-red-400 hover:bg-opacity-20;
 
                 &:hover {
                     @apply rounded-xl;

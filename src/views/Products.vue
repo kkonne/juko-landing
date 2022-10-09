@@ -49,32 +49,32 @@ export default {
             {
                 name: 'Radna odjeća',
                 image_path:
-                    'https://cdn-icons-png.flaticon.com/512/808/808726.png',
+                    'https://cdn-icons-png.flaticon.com/512/65/65418.png',
             },
             {
                 name: 'Radna obuća',
                 image_path:
-                    'https://cdn-icons-png.flaticon.com/512/808/808726.png',
+                    'https://cdn-icons-png.flaticon.com/512/3531/3531605.png',
             },
             {
                 name: 'Radne i zaštitne rukavice',
                 image_path:
-                    'https://cdn-icons-png.flaticon.com/512/808/808726.png',
+                    'https://uxwing.com/wp-content/themes/uxwing/download/clothes-and-accessories/hand-gloves-protective-icon.png',
             },
             {
                 name: 'Zaštita respiratornog sustava',
                 image_path:
-                    'https://cdn-icons-png.flaticon.com/512/808/808726.png',
+                    'https://cdn-icons-png.flaticon.com/512/250/250178.png',
             },
             {
                 name: 'Zaštita glave i lica',
                 image_path:
-                    'https://cdn-icons-png.flaticon.com/512/808/808726.png',
+                    'https://www.iconpacks.net/icons/2/free-helmet-icon-2734-thumb.png',
             },
             {
                 name: 'HoReCa program',
                 image_path:
-                    'https://cdn-icons-png.flaticon.com/512/808/808726.png',
+                    'https://gogeticon.net/files/3052356/6b796dd35278046421666a235701e21e.png',
             },
             {
                 name: 'Šivani program',
@@ -84,7 +84,7 @@ export default {
             {
                 name: 'Jednokratni program',
                 image_path:
-                    'https://cdn-icons-png.flaticon.com/512/808/808726.png',
+                    'https://cdn4.iconfinder.com/data/icons/pixa-vol-3/160/reflective-vest-512.png',
             },
         ];
 

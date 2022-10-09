@@ -3,15 +3,17 @@
         <div class="contact-main">
             <div class="contact-form container-fluid">
                 <form
+                    ref="emailForm"
                     class="contact-form-content container"
-                    @submit.prevent="attemptContactFormSubmit()"
+                    @submit.prevent="attemptContactFormSubmit($event)"
                 >
                     <h1>Kontaktirajte nas</h1>
 
                     <p>Kako Vam možemo pomoći?</p>
 
                     <input
-                        v-model="customerNameInput"
+                        v-model.trim="customerNameInput"
+                        name="user_name"
                         type="text"
                         placeholder="Ime"
                         @input="handleInputState($event)"
@@ -20,8 +22,9 @@
                     />
                     <br />
                     <input
-                        v-model="customerEmailInput"
+                        v-model.trim="customerEmailInput"
                         type="email"
+                        name="user_email"
                         placeholder="Email"
                         @input="handleInputState($event)"
                         @blur="handleInputState($event)"
@@ -29,8 +32,9 @@
                     />
                     <br />
                     <input
-                        v-model="customerSubjectInput"
+                        v-model.trim="customerSubjectInput"
                         type="text"
+                        name="subject"
                         placeholder="Predmet"
                         @input="handleInputState($event)"
                         @blur="handleInputState($event)"
@@ -38,8 +42,9 @@
                     />
                     <br />
                     <textarea
-                        v-model="customerMessageInput"
+                        v-model.trim="customerMessageInput"
                         type="text"
+                        name="message"
                         placeholder="Vaše pitanje..."
                         rows="4"
                         @input="handleInputState($event)"
@@ -78,8 +83,8 @@
                     ></inline-svg>
                     <h2 class="title">Kontaktirajte nas</h2>
                     <div class="card-text">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Amet, eius.
+                        Uvijek smo tu za Vas. <br />
+                        Najbrži način da nas dobijete!
                     </div>
                     <div class="featured-text">+387 63 123-456</div>
                 </div>
@@ -96,8 +101,9 @@
                     ></inline-svg>
                     <h2 class="title">Posjetite nas</h2>
                     <div class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quod, praesentium!
+                        Uvijek ste pozvani da nas posjetite!
+                        <br />
+                        Radno vrijeme: 08:00 - 16:00
                     </div>
                     <div class="featured-text">
                         Ante Brune Bušića 35, Posušje
@@ -122,6 +128,7 @@
 <script lang="ts">
 import { ref } from 'vue';
 import Alert from '@/components/Alert.vue';
+import emailjs from '@emailjs/browser';
 
 export default {
     name: 'Kontakt',
@@ -138,9 +145,7 @@ export default {
         let customerSubjectInput = ref('');
         let customerMessageInput = ref('');
 
-        const attemptContactFormSubmit = (): void => {
-            console.log('Submitted contact form :)');
-
+        const attemptContactFormSubmit = (event): void => {
             if (
                 !customerNameInput.value.trim() ||
                 !customerEmailInput.value.trim() ||
@@ -148,9 +153,33 @@ export default {
                 !customerMessageInput.value.trim()
             ) {
                 const errorMessage =
-                    'All fields are required! Please fill out all fields.';
+                    'Potrebno je ispuniti sva polja! Molimo Vas popunite sva polja.';
                 displayErrorMessage(errorMessage);
+                return;
             }
+
+            emailjs
+                .sendForm(
+                    'service_3j1w1ih',
+                    'template_ca3wg9g',
+                    event.target,
+                    'SrUDixuexaD02oG9P'
+                )
+                .then(
+                    () => {
+                        const successMessage = 'Uspješno poslan zahtjev!';
+                        displaySuccessMessage(successMessage);
+                    },
+                    () => {
+                        displayErrorMessage();
+                    }
+                )
+                .finally(() => {
+                    customerNameInput.value = '';
+                    customerEmailInput.value = '';
+                    customerSubjectInput.value = '';
+                    customerMessageInput.value = '';
+                });
         };
 
         const displayErrorMessage = (errorMessage?: string): void => {
@@ -158,7 +187,7 @@ export default {
                 productAddErrorMessage.value = errorMessage;
             } else {
                 productAddErrorMessage.value =
-                    'An error occurred! Please check your input or try again later.';
+                    'Nešto je pošlo po zlu, molimo Vas probajte kasnije.';
             }
 
             setTimeout(() => {
@@ -170,8 +199,7 @@ export default {
             if (successMessage) {
                 productAddSuccessMessage.value = successMessage;
             } else {
-                productAddSuccessMessage.value =
-                    'You have successfully added a product!';
+                productAddSuccessMessage.value = 'Uspjeh!';
             }
 
             setTimeout(() => {

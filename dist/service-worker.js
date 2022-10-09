@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/juko-landing-deploy/precache-manifest.a39f0c0121fb03330431ef07f95148c8.js"
+  "/juko-landing/precache-manifest.329dedfaf2d2e005db63cb42ee8a1cbe.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "juko"});
